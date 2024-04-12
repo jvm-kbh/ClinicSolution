@@ -1,0 +1,2 @@
+// == TestController
+// operation::{controller}-test/rest-docs-test[snippets="curl-request,http-request,http-response"]
