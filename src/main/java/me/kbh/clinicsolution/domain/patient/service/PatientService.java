@@ -1,15 +1,18 @@
 package me.kbh.clinicsolution.domain.patient.service;
 
-import java.util.List;
+import me.kbh.clinicsolution.common.dto.PageInfoWrapper;
 import me.kbh.clinicsolution.domain.patient.dto.PatientResponse;
 import me.kbh.clinicsolution.domain.patient.dto.PatientSaveRequest;
+import me.kbh.clinicsolution.domain.patient.dto.PatientSearchCondition;
+import me.kbh.clinicsolution.domain.patient.dto.PatientTotalInfoResponse;
 import me.kbh.clinicsolution.domain.patient.dto.PatientUpdateRequest;
+import org.springframework.data.domain.Pageable;
 
 public interface PatientService extends PatientDefaultExceptionSupplier {
 
-  PatientResponse findById(Long patientId);
+  PatientTotalInfoResponse findById(Long patientId);
 
-  List<PatientResponse> findAll();
+  PageInfoWrapper<PatientResponse> findAllByCondition(PatientSearchCondition patientSearchCondition, Pageable pageable);
 
   PatientResponse save(PatientSaveRequest patientSaveRequest);
 
