@@ -3,11 +3,12 @@ package me.kbh.clinicsolution.domain.patient.service;
 import java.util.List;
 import me.kbh.clinicsolution.domain.patient.dto.PatientResponse;
 import me.kbh.clinicsolution.domain.patient.dto.PatientSaveRequest;
+import me.kbh.clinicsolution.domain.patient.dto.PatientTotalInfoResponse;
 import me.kbh.clinicsolution.domain.patient.dto.PatientUpdateRequest;
 
 public interface PatientService extends PatientDefaultExceptionSupplier {
 
-  PatientResponse findById(Long patientId);
+  PatientTotalInfoResponse findById(Long patientId);
 
   List<PatientResponse> findAll();
 

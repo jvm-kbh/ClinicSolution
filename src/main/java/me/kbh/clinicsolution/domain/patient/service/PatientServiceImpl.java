@@ -9,10 +9,13 @@ import me.kbh.clinicsolution.domain.hospital.entity.Hospital;
 import me.kbh.clinicsolution.domain.hospital.repository.HospitalRepository;
 import me.kbh.clinicsolution.domain.patient.dto.PatientResponse;
 import me.kbh.clinicsolution.domain.patient.dto.PatientSaveRequest;
+import me.kbh.clinicsolution.domain.patient.dto.PatientTotalInfoResponse;
 import me.kbh.clinicsolution.domain.patient.dto.PatientUpdateRequest;
 import me.kbh.clinicsolution.domain.patient.entity.Patient;
 import me.kbh.clinicsolution.domain.patient.repository.PatientRepository;
 import me.kbh.clinicsolution.domain.patient.util.PatientUtil;
+import me.kbh.clinicsolution.domain.patientvisit.entity.PatientVisit;
+import me.kbh.clinicsolution.domain.patientvisit.repository.PatientVisitRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,13 +25,20 @@ public class PatientServiceImpl implements PatientService {
 
   PatientRepository patientRepository;
   HospitalRepository hospitalRepository;
+  PatientVisitRepository patientVisitRepository;
 
   @Override
-  public PatientResponse findById(Long hospitalId) {
+  public PatientTotalInfoResponse findById(Long patientId) {
     Patient patient =
-        patientRepository.findById(hospitalId).orElseThrow(patientNotFoundException());
+        patientRepository.findById(patientId).orElseThrow(patientNotFoundException());
 
-    return PatientResponse.builder().mappingByEntity(patient).build();
+    List<PatientVisit> patientVisitList = patientVisitRepository.findAllByPatientPatientId(
+        patientId);
+
+    return PatientTotalInfoResponse.builder()
+        .mappingByEntity(patient)
+        .patientVisitList(patientVisitList)
+        .build();
   }
 
   @Override

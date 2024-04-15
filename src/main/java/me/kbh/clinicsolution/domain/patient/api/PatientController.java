@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import me.kbh.clinicsolution.domain.patient.dto.PatientResponse;
 import me.kbh.clinicsolution.domain.patient.dto.PatientSaveRequest;
+import me.kbh.clinicsolution.domain.patient.dto.PatientTotalInfoResponse;
 import me.kbh.clinicsolution.domain.patient.dto.PatientUpdateRequest;
 import me.kbh.clinicsolution.domain.patient.service.PatientService;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class PatientController {
   PatientService patientService;
 
   @GetMapping("/{patientId}")
-  public ResponseEntity<PatientResponse> bySearchRequestId(@PathVariable Long patientId) {
+  public ResponseEntity<PatientTotalInfoResponse> bySearchRequestId(@PathVariable Long patientId) {
     return ResponseEntity.ok(patientService.findById(patientId));
   }
 
