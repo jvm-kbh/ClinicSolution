@@ -9,6 +9,7 @@ import me.kbh.clinicsolution.domain.hospital.entity.Hospital;
 import me.kbh.clinicsolution.domain.hospital.repository.HospitalRepository;
 import me.kbh.clinicsolution.domain.patient.dto.PatientResponse;
 import me.kbh.clinicsolution.domain.patient.dto.PatientSaveRequest;
+import me.kbh.clinicsolution.domain.patient.dto.PatientSearchCondition;
 import me.kbh.clinicsolution.domain.patient.dto.PatientTotalInfoResponse;
 import me.kbh.clinicsolution.domain.patient.dto.PatientUpdateRequest;
 import me.kbh.clinicsolution.domain.patient.entity.Patient;
@@ -42,8 +43,8 @@ public class PatientServiceImpl implements PatientService {
   }
 
   @Override
-  public List<PatientResponse> findAll() {
-    List<Patient> patientList = patientRepository.findAll();
+  public List<PatientResponse> findAll(PatientSearchCondition patientSearchCondition) {
+    List<Patient> patientList = patientRepository.findAllByCondition(patientSearchCondition);
     Function<Patient, PatientResponse> mappingByEntityFunction = patient -> PatientResponse.builder()
         .mappingByEntity(patient)
         .build();
