@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import me.kbh.clinicsolution.common.entity.BaseEntity;
 import me.kbh.clinicsolution.domain.hospital.dto.HospitalSaveRequest;
 import me.kbh.clinicsolution.domain.hospital.dto.HospitalUpdateRequest;
 
@@ -17,7 +18,7 @@ import me.kbh.clinicsolution.domain.hospital.dto.HospitalUpdateRequest;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class Hospital {
+public class Hospital extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

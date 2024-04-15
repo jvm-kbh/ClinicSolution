@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import me.kbh.clinicsolution.common.entity.BaseEntity;
 import me.kbh.clinicsolution.domain.hospital.entity.Hospital;
 import me.kbh.clinicsolution.domain.patient.dto.PatientSaveRequest;
 import me.kbh.clinicsolution.domain.patient.dto.PatientUpdateRequest;
@@ -29,7 +30,7 @@ import me.kbh.clinicsolution.domain.patient.dto.PatientUpdateRequest;
             name = "patient_registration_number_unique",
             columnNames = {"patient_registration_number", "hospital_id"})
     })
-public class Patient {
+public class Patient extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
