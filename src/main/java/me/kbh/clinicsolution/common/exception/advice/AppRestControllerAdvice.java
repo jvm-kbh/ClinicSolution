@@ -6,6 +6,8 @@ import me.kbh.clinicsolution.common.exception.response.system.SystemCodeBusiness
 import me.kbh.clinicsolution.common.exception.response.system.SystemCodeErrorResponse;
 import me.kbh.clinicsolution.common.exception.response.system.SystemGroupCodeBusinessException;
 import me.kbh.clinicsolution.common.exception.response.system.SystemGroupCodeErrorResponse;
+import me.kbh.clinicsolution.domain.hospital.exception.HospitalBusinessException;
+import me.kbh.clinicsolution.domain.hospital.exception.response.HospitalErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -35,5 +37,11 @@ public class AppRestControllerAdvice {
   public ResponseEntity<SystemGroupCodeErrorResponse> handlingForSystemGroupCodeBusinessException(
       SystemGroupCodeBusinessException exception) {
     return SystemGroupCodeErrorResponse.toResponse(exception.getSystemGroupCodeError());
+  }
+
+  @ExceptionHandler(HospitalBusinessException.class)
+  public ResponseEntity<HospitalErrorResponse> handlingForHospitalBusinessException(
+      HospitalBusinessException exception) {
+    return HospitalErrorResponse.toResponse(exception.getHospitalError());
   }
 }
