@@ -69,13 +69,13 @@ public class PatientServiceImpl implements PatientService {
   }
 
   @Override
-  public PatientResponse update(Long hospitalId, PatientUpdateRequest patientUpdateRequest) {
+  public PatientResponse update(Long patientId, PatientUpdateRequest patientUpdateRequest) {
 
     Hospital relateHospital = hospitalRepository.findById(patientUpdateRequest.getHospitalId())
         .orElseThrow(hospitalNotException());
 
     Patient patient =
-        patientRepository.findById(hospitalId).orElseThrow(patientNotFoundException());
+        patientRepository.findById(patientId).orElseThrow(patientNotFoundException());
 
     patient.update(patientUpdateRequest, relateHospital);
 
@@ -83,8 +83,8 @@ public class PatientServiceImpl implements PatientService {
   }
 
   @Override
-  public void delete(Long hospitalId) {
-    patientRepository.findById(hospitalId).orElseThrow(patientNotFoundException());
-    patientRepository.deleteById(hospitalId);
+  public void delete(Long patientId) {
+    patientRepository.findById(patientId).orElseThrow(patientNotFoundException());
+    patientRepository.deleteById(patientId);
   }
 }
