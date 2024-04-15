@@ -5,6 +5,7 @@ import java.util.function.Function;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import me.kbh.clinicsolution.common.dto.PageInfoWrapper;
 import me.kbh.clinicsolution.domain.hospital.entity.Hospital;
 import me.kbh.clinicsolution.domain.hospital.repository.HospitalRepository;
 import me.kbh.clinicsolution.domain.patient.dto.PatientResponse;
@@ -17,6 +18,8 @@ import me.kbh.clinicsolution.domain.patient.repository.PatientRepository;
 import me.kbh.clinicsolution.domain.patient.util.PatientUtil;
 import me.kbh.clinicsolution.domain.patientvisit.entity.PatientVisit;
 import me.kbh.clinicsolution.domain.patientvisit.repository.PatientVisitRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,14 +46,20 @@ public class PatientServiceImpl implements PatientService {
   }
 
   @Override
-  public List<PatientResponse> findAll(PatientSearchCondition patientSearchCondition) {
-    List<Patient> patientList = patientRepository.findAllByCondition(patientSearchCondition);
+  public PageInfoWrapper<PatientResponse> findAllByCondition(
+      PatientSearchCondition patientSearchCondition,
+      Pageable pageable
+  ) {
+    Page<Patient> patientPage = patientRepository.findAllByCondition(patientSearchCondition, pageable);
     Function<Patient, PatientResponse> mappingByEntityFunction = patient -> PatientResponse.builder()
         .mappingByEntity(patient)
         .build();
-    return patientList.stream()
+
+    List<PatientResponse> patientResponseList = patientPage.getContent().stream()
         .map(mappingByEntityFunction)
         .toList();
+
+    return new PageInfoWrapper<>(patientResponseList,patientPage);
   }
 
   @Override

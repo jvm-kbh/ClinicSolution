@@ -2,16 +2,17 @@ package me.kbh.clinicsolution.domain.patient.api;
 
 
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import me.kbh.clinicsolution.common.dto.PageInfoWrapper;
 import me.kbh.clinicsolution.domain.patient.dto.PatientResponse;
 import me.kbh.clinicsolution.domain.patient.dto.PatientSaveRequest;
 import me.kbh.clinicsolution.domain.patient.dto.PatientSearchCondition;
 import me.kbh.clinicsolution.domain.patient.dto.PatientTotalInfoResponse;
 import me.kbh.clinicsolution.domain.patient.dto.PatientUpdateRequest;
 import me.kbh.clinicsolution.domain.patient.service.PatientService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,9 +38,10 @@ public class PatientController {
   }
 
   @GetMapping("/all/condition")
-  public ResponseEntity<List<PatientResponse>> all(
-      @Valid @ModelAttribute PatientSearchCondition patientSearchCondition) {
-    return ResponseEntity.ok(patientService.findAll(patientSearchCondition));
+  public ResponseEntity<PageInfoWrapper<PatientResponse>> allByCondition(
+      @Valid @ModelAttribute PatientSearchCondition patientSearchCondition,
+      Pageable pageable) {
+    return ResponseEntity.ok(patientService.findAllByCondition(patientSearchCondition, pageable));
   }
 
   @PostMapping("")
