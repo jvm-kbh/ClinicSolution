@@ -12,9 +12,12 @@ import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.kbh.clinicsolution.domain.hospital.entity.Hospital;
+import me.kbh.clinicsolution.domain.patient.dto.PatientSaveRequest;
+import me.kbh.clinicsolution.domain.patient.dto.PatientUpdateRequest;
 
 @Entity
 @Getter
@@ -50,4 +53,27 @@ public class Patient {
   @ManyToOne
   @JoinColumn(name = "hospital_id", nullable = false)
   Hospital hospital;
+
+  @Builder(
+      builderClassName = "saveBuilder",
+      builderMethodName = "builderForSave",
+      buildMethodName = "buildBySaveRequest")
+  protected Patient(PatientSaveRequest patientSaveRequest, Hospital hospital,
+      String patientRegistrationNumber) {
+    this.patientName = patientSaveRequest.getPatientName();
+    this.genderCode = patientSaveRequest.getGenderType().getName();
+    this.birthDate = patientSaveRequest.getBirthDate();
+    this.phoneNumber = patientSaveRequest.getPhoneNumber();
+    this.hospital = hospital;
+    this.patientRegistrationNumber = patientRegistrationNumber;
+  }
+
+  public void update(PatientUpdateRequest patientUpdateRequest,
+      Hospital hospital) {
+    this.patientName = patientUpdateRequest.getPatientName();
+    this.genderCode = patientUpdateRequest.getGenderType().getName();
+    this.birthDate = patientUpdateRequest.getBirthDate();
+    this.phoneNumber = patientUpdateRequest.getPhoneNumber();
+    this.hospital = hospital;
+  }
 }
