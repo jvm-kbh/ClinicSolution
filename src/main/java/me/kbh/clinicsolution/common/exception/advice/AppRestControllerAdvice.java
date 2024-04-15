@@ -10,6 +10,8 @@ import me.kbh.clinicsolution.domain.hospital.exception.HospitalBusinessException
 import me.kbh.clinicsolution.domain.hospital.exception.response.HospitalErrorResponse;
 import me.kbh.clinicsolution.domain.patient.exception.PatientBusinessException;
 import me.kbh.clinicsolution.domain.patient.exception.response.PatientErrorResponse;
+import me.kbh.clinicsolution.domain.patientvisit.exception.PatientVisitBusinessException;
+import me.kbh.clinicsolution.domain.patientvisit.exception.response.PatientVisitErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -51,5 +53,11 @@ public class AppRestControllerAdvice {
   public ResponseEntity<PatientErrorResponse> handlingForPatientBusinessException(
       PatientBusinessException exception) {
     return PatientErrorResponse.toResponse(exception.getPatientError());
+  }
+
+  @ExceptionHandler(PatientVisitBusinessException.class)
+  public ResponseEntity<PatientVisitErrorResponse> handlingForPatientVisitBusinessException(
+      PatientVisitBusinessException exception) {
+    return PatientVisitErrorResponse.toResponse(exception.getPatientVisitError());
   }
 }
