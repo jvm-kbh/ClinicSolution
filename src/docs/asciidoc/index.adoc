@@ -106,4 +106,4 @@
 | 서버 에러
 |===
 
-include::api.adoc[]
+include::hospital-api.adoc[]
