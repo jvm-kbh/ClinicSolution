@@ -1,0 +1,39 @@
+###
+GET http://localhost:8080/hospital/1
+
+###
+GET http://localhost:8080/hospital/all
+
+###
+POST http://localhost:8080/hospital
+Content-Type: application/json
+
+{
+  "hospitalName" : "병원1",
+  "medicalInstitutionNumber" : "기관번호1",
+  "hospitalDirectorName" : "병원장1"
+}
+
+###
+PUT http://localhost:8080/hospital/1
+Content-Type: application/json
+
+{
+  "hospitalName" : "병원수정1",
+  "medicalInstitutionNumber" : "기관수정1",
+  "hospitalDirectorName" : "병원장수정1"
+}
+
+###
+DELETE http://localhost:8080/hospital/1
+
+
+###
+POST http://localhost:8080/hospital
+Content-Type: application/json
+
+{
+  "hospitalName" : "병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병",
+  "medicalInstitutionNumber" : "병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병",
+  "hospitalDirectorName" : "병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병"
+}
