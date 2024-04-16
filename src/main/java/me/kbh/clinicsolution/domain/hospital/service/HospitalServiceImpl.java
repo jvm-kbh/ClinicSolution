@@ -61,14 +61,7 @@ public class HospitalServiceImpl implements HospitalService {
 
   @Override
   public void delete(Long hospitalId) {
-    hospitalRepository.findById(hospitalId);
+    hospitalRepository.findById(hospitalId).orElseThrow(hospitalNotFoundException());
     hospitalRepository.deleteById(hospitalId);
-  }
-
-  @Override
-  public void increaseHospitalPatientVisit(Long hospitalId) {
-    Hospital hospital = hospitalRepository.findByHospitalIdWithPessimisticLock(hospitalId)
-        .orElseThrow(hospitalNotFoundException());
-    hospital.increasePatientVisitCount();
   }
 }

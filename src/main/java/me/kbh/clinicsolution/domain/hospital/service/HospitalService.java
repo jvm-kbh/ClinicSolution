@@ -16,6 +16,4 @@ public interface HospitalService extends HospitalDefaultExceptionSupplier {
   HospitalResponse update(Long hospitalId, HospitalUpdateRequest hospitalUpdateRequest);
 
   void delete(Long hospitalId);
-
-  void increaseHospitalPatientVisit(Long hospitalId);
 }
