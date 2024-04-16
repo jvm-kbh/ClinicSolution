@@ -19,9 +19,9 @@ PUT http://localhost:8080/hospital/1
 Content-Type: application/json
 
 {
-  "hospitalName" : "병원수정1",
-  "medicalInstitutionNumber" : "기관수정1",
-  "hospitalDirectorName" : "병원장수정1"
+  "hospitalName" : "병원수정2",
+  "medicalInstitutionNumber" : "기관수정2",
+  "hospitalDirectorName" : "병원장수정2"
 }
 
 ###
