@@ -66,13 +66,13 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
   private PatientVisitService patientVisitService;
   ObjectMapper objectMapper = new ObjectMapper();
 
-  protected static final String PATIENT_VISIT_ID =  "환자 방문 아이디";
-  protected static final String VISIT_STATUS_CODE =  "방문상태코드";
-  protected static final String CLINIC_SUBJECT_CODE =  "진료과목코드";
-  protected static final String CLINIC_CATEGORY_CODE =  "진료유형코드";
-  protected static final String CREATE_AT =  "진료유형코드";
-  protected static final String HOSPITAL =  "관련 병원";
-  protected static final String PATIENT =  "관련 환자";
+  protected static final String PATIENT_VISIT_ID = "환자 방문 아이디";
+  protected static final String VISIT_STATUS_CODE = "방문상태코드";
+  protected static final String CLINIC_SUBJECT_CODE = "진료과목코드";
+  protected static final String CLINIC_CATEGORY_CODE = "진료유형코드";
+  protected static final String CREATE_AT = "진료유형코드";
+  protected static final String HOSPITAL = "관련 병원";
+  protected static final String PATIENT = "관련 환자";
   protected static final String HOSPITAL_ID = "병원 ID";
   protected static final String HOSPITAL_NAME = "병원 이름";
   protected static final String MEDICAL_INSTITUTION_NUMBER = "병원 기관번호";
@@ -113,7 +113,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .hospitalId(1L)
         .build();
 
-    Patient patient = Patient.builderForSave()
+    Patient relatePatient = Patient.builderForSave()
         .patientSaveRequest(patientSaveRequest)
         .patientRegistrationNumber(patientRegistrationNumber)
         .hospital(relateHospital)
@@ -123,13 +123,13 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .visitStatusType(VisitStatusType.VISIT_STATUS_ONE)
         .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_ONE)
         .clinicCategoryType(ClinicCategoryType.CLINIC_CATEGORY_D)
-        .patientId(patient.getPatientId())
+        .patientId(relatePatient.getPatientId())
         .hospitalId(relateHospital.getHospitalId())
         .build();
 
     PatientVisit patientVisit = PatientVisit.builderForSave()
         .patientSaveRequest(patientVisitSaveRequest)
-        .patient(patient)
+        .patient(relatePatient)
         .hospital(relateHospital)
         .buildBySaveRequest();
 
@@ -142,18 +142,18 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
 
     //then
     List<FieldDescriptor> responseFieldDescriptorList = List.of(
-        fieldWithPath("patientVisitId").description("방문상태코드"),
-        fieldWithPath("visitStatusCode").description("방문상태코드"),
-        fieldWithPath("clinicSubjectCode").description("진료과목코드"),
-        fieldWithPath("clinicCategoryCode").description("진료유형코드"),
-        fieldWithPath("createAt").description("진료유형코드"),
-        subsectionWithPath("hospital").description("관련 병원"),
-        subsectionWithPath("patient").description("관련 환자")
+        fieldWithPath("patientVisitId").description(PATIENT_ID),
+        fieldWithPath("visitStatusCode").description(VISIT_STATUS_CODE),
+        fieldWithPath("clinicSubjectCode").description(CLINIC_SUBJECT_CODE),
+        fieldWithPath("clinicCategoryCode").description(CLINIC_CATEGORY_CODE),
+        fieldWithPath("createAt").description(CREATE_AT),
+        subsectionWithPath("hospital").description(HOSPITAL_ID),
+        subsectionWithPath("relatePatient").description(PATIENT)
     );
 
     mockMvc.perform(
-        RestDocumentationRequestBuilders.get("/patient-visit/{patientVisitId}",1L)
-            .contentType(MediaType.APPLICATION_JSON)
+            RestDocumentationRequestBuilders.get("/relatePatient-visit/{patientVisitId}", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -188,7 +188,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
 
     //then
     mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/patient-visit/{patientVisitId}",1L)
+            RestDocumentationRequestBuilders.get("/patient-visit/{patientVisitId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isNotFound())
@@ -196,7 +196,8 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .andExpect(jsonPath("$.definitionCodeName").value(
             "me.kbh.clinicsolution.domain.patientvisit.exception.code.PatientVisitError")).
         andExpect(
-            jsonPath("$.httpStatusCode").value(PatientVisitError.NOT_FOUND.getHttpStatus().value())).
+            jsonPath("$.httpStatusCode").value(
+                PatientVisitError.NOT_FOUND.getHttpStatus().value())).
         andExpect(jsonPath("$.httpStatusType").value(String.valueOf(PatientVisitError.NOT_FOUND))).
         andExpect(jsonPath("$.errorMessage").value(PatientVisitError.NOT_FOUND.getMessage()))
         .andDo(
@@ -235,7 +236,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .hospitalId(1L)
         .build();
 
-    Patient patient = Patient.builderForSave()
+    Patient relatePatient = Patient.builderForSave()
         .patientSaveRequest(patientSaveRequest)
         .patientRegistrationNumber(patientRegistrationNumber)
         .hospital(relateHospital)
@@ -245,7 +246,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .visitStatusType(VisitStatusType.VISIT_STATUS_ONE)
         .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_ONE)
         .clinicCategoryType(ClinicCategoryType.CLINIC_CATEGORY_D)
-        .patientId(patient.getPatientId())
+        .patientId(relatePatient.getPatientId())
         .hospitalId(relateHospital.getHospitalId())
         .build();
 
@@ -253,19 +254,19 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .visitStatusType(VisitStatusType.VISIT_STATUS_TWO)
         .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_TWO)
         .clinicCategoryType(ClinicCategoryType.CLINIC_CATEGORY_T)
-        .patientId(patient.getPatientId())
+        .patientId(relatePatient.getPatientId())
         .hospitalId(relateHospital.getHospitalId())
         .build();
 
     PatientVisit patientVisit1 = PatientVisit.builderForSave()
         .patientSaveRequest(patientVisitSaveRequest1)
-        .patient(patient)
+        .patient(relatePatient)
         .hospital(relateHospital)
         .buildBySaveRequest();
 
     PatientVisit patientVisit2 = PatientVisit.builderForSave()
         .patientSaveRequest(patientVisitSaveRequest2)
-        .patient(patient)
+        .patient(relatePatient)
         .hospital(relateHospital)
         .buildBySaveRequest();
 
@@ -285,7 +286,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
 
     //then
     mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/patient-visit/all")
+            RestDocumentationRequestBuilders.get("/relatePatient-visit/all")
                 .contentType(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -304,25 +305,30 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .andDo(document("{class-name}/{method-name}",
             preprocessResponse(prettyPrint()),
             PayloadDocumentation.responseFields(
-                fieldWithPath("[].patientVisitId").description("환자 방문 ID (nullable)"),
-                fieldWithPath("[].visitStatusCode").description("환자 방문 상태 코드 ('방문중' 또는 '종료')"),
-                fieldWithPath("[].clinicSubjectCode").description("진료 과목 코드"),
-                fieldWithPath("[].clinicCategoryCode").description("진료 카테고리 코드"),
-                fieldWithPath("[].hospital.hospitalId").type(Long.class).description("HOSPITAL_ID"),
-                fieldWithPath("[].hospital.hospitalName").description("HOSPITAL_NAME"),
-                fieldWithPath("[].hospital.medicalInstitutionNumber").description("MEDICAL_INSTITUTION_NUMBER"),
-                fieldWithPath("[].hospital.hospitalDirectorName").description("HOSPITAL_DIRECTOR_NAME"),
-                fieldWithPath("[].patient.patientId").description("환자 ID (nullable)"),
-                fieldWithPath("[].patient.patientName").description("환자 이름"),
-                fieldWithPath("[].patient.patientRegistrationNumber").description("환자 등록 번호"),
-                fieldWithPath("[].patient.genderCode").description("환자 성별 코드"),
-                fieldWithPath("[].patient.birthDate").description("환자 생년월일"),
-                fieldWithPath("[].patient.phoneNumber").description("환자 전화번호"),
-                fieldWithPath("[].patient.hospital.hospitalId").description("환자가 속한 병원 ID (nullable)"),
-                fieldWithPath("[].patient.hospital.hospitalName").description("환자가 속한 병원 이름"),
-                fieldWithPath("[].patient.hospital.medicalInstitutionNumber").description("환자가 속한 병원의 의료 기관 번호"),
-                fieldWithPath("[].patient.hospital.hospitalDirectorName").description("환자가 속한 병원의 병원장 이름"),
-                fieldWithPath("[].createAt").description("레코드 생성 시간 (nullable)")
+                fieldWithPath("[].patientVisitId").description(PATIENT_VISIT_ID),
+                fieldWithPath("[].visitStatusCode").description(VISIT_STATUS_CODE),
+                fieldWithPath("[].clinicSubjectCode").description(CLINIC_SUBJECT_CODE),
+                fieldWithPath("[].clinicCategoryCode").description(CLINIC_CATEGORY_CODE),
+                fieldWithPath("[].hospital.hospitalId").type(Long.class).description(HOSPITAL_ID),
+                fieldWithPath("[].hospital.hospitalName").description(HOSPITAL_NAME),
+                fieldWithPath("[].hospital.medicalInstitutionNumber").description(
+                    MEDICAL_INSTITUTION_NUMBER),
+                fieldWithPath("[].hospital.hospitalDirectorName").description(
+                    HOSPITAL_DIRECTOR_NAME),
+                fieldWithPath("[].relatePatient.patientId").description(PATIENT_ID),
+                fieldWithPath("[].relatePatient.patientName").description(PATIENT_NAME),
+                fieldWithPath("[].relatePatient.patientRegistrationNumber").description(
+                    PATIENT_REGISTRATION_NUMBER),
+                fieldWithPath("[].relatePatient.genderCode").description(GENDER_CODE),
+                fieldWithPath("[].relatePatient.birthDate").description(BIRTH_DATE),
+                fieldWithPath("[].relatePatient.phoneNumber").description(PHONE_NUMBER),
+                fieldWithPath("[].relatePatient.hospital.hospitalId").description(HOSPITAL_ID),
+                fieldWithPath("[].relatePatient.hospital.hospitalName").description(HOSPITAL_NAME),
+                fieldWithPath("[].relatePatient.hospital.medicalInstitutionNumber").description(
+                    MEDICAL_INSTITUTION_NUMBER),
+                fieldWithPath("[].relatePatient.hospital.hospitalDirectorName").description(
+                    HOSPITAL_DIRECTOR_NAME),
+                fieldWithPath("[].createAt").description(CREATE_AT)
             )
         ));
 
@@ -349,6 +355,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
 
     verify(patientVisitService, times(1)).findAll();
   }
+
   @Test
   @Order(5)
   @DisplayName("환자 방문 정보 저장")
@@ -377,7 +384,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .hospitalId(1L)
         .build();
 
-    Patient patient = Patient.builderForSave()
+    Patient relatePatient = Patient.builderForSave()
         .patientSaveRequest(patientSaveRequest)
         .patientRegistrationNumber(patientRegistrationNumber)
         .hospital(relateHospital)
@@ -393,7 +400,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
 
     PatientVisit patientVisit = PatientVisit.builderForSave()
         .patientSaveRequest(patientVisitSaveRequest)
-        .patient(patient)
+        .patient(relatePatient)
         .hospital(relateHospital)
         .buildBySaveRequest();
 
@@ -402,7 +409,8 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .build();
 
     //when
-    when(patientVisitService.save(any(PatientVisitSaveRequest.class))).thenReturn(patientVisitResponse);
+    when(patientVisitService.save(any(PatientVisitSaveRequest.class))).thenReturn(
+        patientVisitResponse);
 
     //then
     List<FieldDescriptor> requestFieldsSnippet = List.of(
@@ -420,7 +428,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         fieldWithPath("clinicCategoryCode").description(CLINIC_CATEGORY_CODE),
         fieldWithPath("createAt").description(CREATE_AT),
         subsectionWithPath("hospital").description(HOSPITAL),
-        subsectionWithPath("patient").description(PATIENT)
+        subsectionWithPath("relatePatient").description(PATIENT)
     );
 
     mockMvc.perform(
@@ -459,7 +467,8 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
     PatientVisitSaveRequest patientVisitSaveRequest = PatientVisitSaveRequest.builder()
         .build();
     //when
-    when(patientVisitService.save(any(PatientVisitSaveRequest.class))).thenThrow(RuntimeException.class);
+    when(patientVisitService.save(any(PatientVisitSaveRequest.class))).thenThrow(
+        RuntimeException.class);
 
     //then
     mockMvc.perform(
@@ -474,7 +483,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .andExpect(jsonPath("$.clinicSubjectType").value("진료 과목은 필수 값입니다."))
         .andExpect(jsonPath("$.clinicCategoryType").value("진료 유형은 필수 값입니다."))
         .andExpect(jsonPath("$.visitStatusType").value("방문 상태는 필수 값입니다."))
-        .andDo(document("{class-name}/{method-name}",preprocessResponse(prettyPrint())));
+        .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint())));
 
     verify(patientVisitService, times(0)).save(any(PatientVisitSaveRequest.class));
   }
@@ -496,23 +505,6 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
 
     relateHospital.increasePatientVisitCount();
 
-    String patientRegistrationNumber = PatientUtil.generatePatientRegistrationNumber(
-        relateHospital.getPatientVisitCount());
-
-    PatientSaveRequest patientSaveRequest = PatientSaveRequest.builder()
-        .patientName("환자1")
-        .genderType(GenderType.GENDER_MAN)
-        .birthDate(LocalDate.of(1988, 10, 20))
-        .phoneNumber("010-9999-9999")
-        .hospitalId(1L)
-        .build();
-
-    Patient patient = Patient.builderForSave()
-        .patientSaveRequest(patientSaveRequest)
-        .patientRegistrationNumber(patientRegistrationNumber)
-        .hospital(relateHospital)
-        .buildBySaveRequest();
-
     PatientVisitSaveRequest patientVisitSaveRequest = PatientVisitSaveRequest.builder()
         .visitStatusType(VisitStatusType.VISIT_STATUS_ONE)
         .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_ONE)
@@ -533,15 +525,20 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         )
         .andExpect(status().isNotFound())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.definitionCodeName").value("me.kbh.clinicsolution.domain.patientvisit.exception.code.PatientVisitError"))
-        .andExpect(jsonPath("$.httpStatusCode").value(PatientVisitError.NOT_FOUND_HOSPITAL.getHttpStatus().value()))
-        .andExpect(jsonPath("$.httpStatusType").value(PatientVisitError.NOT_FOUND_HOSPITAL.getHttpStatus().name()))
-        .andExpect(jsonPath("$.errorMessage").value(PatientVisitError.NOT_FOUND_HOSPITAL.getMessage()))
-        .andDo(document("{class-name}/{method-name}",preprocessResponse(prettyPrint())
+        .andExpect(jsonPath("$.definitionCodeName").value(
+            "me.kbh.clinicsolution.domain.patientvisit.exception.code.PatientVisitError"))
+        .andExpect(jsonPath("$.httpStatusCode").value(
+            PatientVisitError.NOT_FOUND_HOSPITAL.getHttpStatus().value()))
+        .andExpect(jsonPath("$.httpStatusType").value(
+            PatientVisitError.NOT_FOUND_HOSPITAL.getHttpStatus().name()))
+        .andExpect(
+            jsonPath("$.errorMessage").value(PatientVisitError.NOT_FOUND_HOSPITAL.getMessage()))
+        .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint())
         ));
 
     verify(patientVisitService, times(1)).save(any(PatientVisitSaveRequest.class));
   }
+
   @Test
   @Order(5)
   @DisplayName("환자 방문 정보 저장 - [case: 환자 정보 미확인]")
@@ -558,23 +555,6 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .buildBySaveRequest();
 
     relateHospital.increasePatientVisitCount();
-
-    String patientRegistrationNumber = PatientUtil.generatePatientRegistrationNumber(
-        relateHospital.getPatientVisitCount());
-
-    PatientSaveRequest patientSaveRequest = PatientSaveRequest.builder()
-        .patientName("환자1")
-        .genderType(GenderType.GENDER_MAN)
-        .birthDate(LocalDate.of(1988, 10, 20))
-        .phoneNumber("010-9999-9999")
-        .hospitalId(1L)
-        .build();
-
-    Patient patient = Patient.builderForSave()
-        .patientSaveRequest(patientSaveRequest)
-        .patientRegistrationNumber(patientRegistrationNumber)
-        .hospital(relateHospital)
-        .buildBySaveRequest();
 
     PatientVisitSaveRequest patientVisitSaveRequest = PatientVisitSaveRequest.builder()
         .visitStatusType(VisitStatusType.VISIT_STATUS_ONE)
@@ -596,15 +576,20 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         )
         .andExpect(status().isNotFound())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.definitionCodeName").value("me.kbh.clinicsolution.domain.patientvisit.exception.code.PatientVisitError"))
-        .andExpect(jsonPath("$.httpStatusCode").value(PatientVisitError.NOT_FOUND_PATIENT.getHttpStatus().value()))
-        .andExpect(jsonPath("$.httpStatusType").value(PatientVisitError.NOT_FOUND_PATIENT.getHttpStatus().name()))
-        .andExpect(jsonPath("$.errorMessage").value(PatientVisitError.NOT_FOUND_PATIENT.getMessage()))
-        .andDo(document("{class-name}/{method-name}",preprocessResponse(prettyPrint())
+        .andExpect(jsonPath("$.definitionCodeName").value(
+            "me.kbh.clinicsolution.domain.patientvisit.exception.code.PatientVisitError"))
+        .andExpect(jsonPath("$.httpStatusCode").value(
+            PatientVisitError.NOT_FOUND_PATIENT.getHttpStatus().value()))
+        .andExpect(jsonPath("$.httpStatusType").value(
+            PatientVisitError.NOT_FOUND_PATIENT.getHttpStatus().name()))
+        .andExpect(
+            jsonPath("$.errorMessage").value(PatientVisitError.NOT_FOUND_PATIENT.getMessage()))
+        .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint())
         ));
 
     verify(patientVisitService, times(1)).save(any(PatientVisitSaveRequest.class));
   }
+
   @Test
   @Order(6)
   @DisplayName("환자 방문 정보 수정")
@@ -661,7 +646,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .hospitalId(2L)
         .build();
 
-    patientVisit.update(patientVisitUpdateRequest,relateHospital, patient);
+    patientVisit.update(patientVisitUpdateRequest, relateHospital, patient);
 
     PatientVisitResponse patientVisitResponse = PatientVisitResponse.builder()
         .mappingByEntity(patientVisit)
@@ -716,7 +701,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
             responseFields(responseFieldDescriptorList)
         ));
 
-    verify(patientVisitService, times(1)).update(eq(1L),any(PatientVisitUpdateRequest.class));
+    verify(patientVisitService, times(1)).update(eq(1L), any(PatientVisitUpdateRequest.class));
   }
 
   @Test
@@ -724,10 +709,12 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
   @DisplayName("환자 방문 정보 수정 - [case: 요청 값 형식 불일치")
   void byUpdateRequest_methodArgumentNotValidException() throws Exception {
     //given
-    PatientVisitUpdateRequest patientVisitUpdateRequest = PatientVisitUpdateRequest.builder().build();
+    PatientVisitUpdateRequest patientVisitUpdateRequest = PatientVisitUpdateRequest.builder()
+        .build();
 
     //when
-    when(patientVisitService.update(eq(1L), any(PatientVisitUpdateRequest.class))).thenThrow(RuntimeException.class);
+    when(patientVisitService.update(eq(1L), any(PatientVisitUpdateRequest.class))).thenThrow(
+        RuntimeException.class);
 
     //then
 
@@ -744,9 +731,9 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .andExpect(jsonPath("$.clinicSubjectType").value("진료 과목은 필수 값입니다."))
         .andExpect(jsonPath("$.clinicCategoryType").value("진료 유형은 필수 값입니다."))
         .andExpect(jsonPath("$.visitStatusType").value("방문 상태는 필수 값입니다."))
-        .andDo(document("{class-name}/{method-name}",preprocessResponse(prettyPrint())));
+        .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint())));
 
-    verify(patientVisitService, times(0)).update(eq(1L),any(PatientVisitUpdateRequest.class));
+    verify(patientVisitService, times(0)).update(eq(1L), any(PatientVisitUpdateRequest.class));
   }
 
   @Test
@@ -809,10 +796,6 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
 
     patientVisit.update(patientVisitUpdateRequest, relateHospital, patient);
 
-    PatientVisitResponse patientVisitResponse = PatientVisitResponse.builder()
-        .mappingByEntity(patientVisit)
-        .build();
-
     //when
     when(patientVisitService.update(eq(1L), any(PatientVisitUpdateRequest.class)))
         .thenThrow(new PatientVisitBusinessException(PatientVisitError.NOT_FOUND_PATIENT));
@@ -826,14 +809,18 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         )
         .andExpect(status().isNotFound())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.definitionCodeName").value("me.kbh.clinicsolution.domain.patientvisit.exception.code.PatientVisitError"))
-        .andExpect(jsonPath("$.httpStatusCode").value(PatientVisitError.NOT_FOUND_PATIENT.getHttpStatus().value()))
-        .andExpect(jsonPath("$.httpStatusType").value(PatientVisitError.NOT_FOUND_PATIENT.getHttpStatus().name()))
-        .andExpect(jsonPath("$.errorMessage").value(PatientVisitError.NOT_FOUND_PATIENT.getMessage()))
-        .andDo(document("{class-name}/{method-name}",preprocessResponse(prettyPrint())
+        .andExpect(jsonPath("$.definitionCodeName").value(
+            "me.kbh.clinicsolution.domain.patientvisit.exception.code.PatientVisitError"))
+        .andExpect(jsonPath("$.httpStatusCode").value(
+            PatientVisitError.NOT_FOUND_PATIENT.getHttpStatus().value()))
+        .andExpect(jsonPath("$.httpStatusType").value(
+            PatientVisitError.NOT_FOUND_PATIENT.getHttpStatus().name()))
+        .andExpect(
+            jsonPath("$.errorMessage").value(PatientVisitError.NOT_FOUND_PATIENT.getMessage()))
+        .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint())
         ));
 
-    verify(patientVisitService, times(1)).update(eq(1L),any(PatientVisitUpdateRequest.class));
+    verify(patientVisitService, times(1)).update(eq(1L), any(PatientVisitUpdateRequest.class));
   }
 
   @Test
@@ -864,7 +851,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .hospitalId(1L)
         .build();
 
-    Patient patient = Patient.builderForSave()
+    Patient relatepatient = Patient.builderForSave()
         .patientSaveRequest(patientSaveRequest)
         .patientRegistrationNumber(patientRegistrationNumber)
         .hospital(relateHospital)
@@ -880,7 +867,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
 
     PatientVisit patientVisit = PatientVisit.builderForSave()
         .patientSaveRequest(patientVisitSaveRequest)
-        .patient(patient)
+        .patient(relatepatient)
         .hospital(relateHospital)
         .buildBySaveRequest();
 
@@ -894,11 +881,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .hospitalId(notExistHospitalId)
         .build();
 
-    patientVisit.update(patientVisitUpdateRequest, relateHospital, patient);
-
-    PatientVisitResponse patientVisitResponse = PatientVisitResponse.builder()
-        .mappingByEntity(patientVisit)
-        .build();
+    patientVisit.update(patientVisitUpdateRequest, relateHospital, relatepatient);
 
     //when
     when(patientVisitService.update(eq(1L), any(PatientVisitUpdateRequest.class)))
@@ -913,14 +896,18 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         )
         .andExpect(status().isNotFound())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.definitionCodeName").value("me.kbh.clinicsolution.domain.patientvisit.exception.code.PatientVisitError"))
-        .andExpect(jsonPath("$.httpStatusCode").value(PatientVisitError.NOT_FOUND_HOSPITAL.getHttpStatus().value()))
-        .andExpect(jsonPath("$.httpStatusType").value(PatientVisitError.NOT_FOUND_HOSPITAL.getHttpStatus().name()))
-        .andExpect(jsonPath("$.errorMessage").value(PatientVisitError.NOT_FOUND_HOSPITAL.getMessage()))
-        .andDo(document("{class-name}/{method-name}",preprocessResponse(prettyPrint())
+        .andExpect(jsonPath("$.definitionCodeName").value(
+            "me.kbh.clinicsolution.domain.patientvisit.exception.code.PatientVisitError"))
+        .andExpect(jsonPath("$.httpStatusCode").value(
+            PatientVisitError.NOT_FOUND_HOSPITAL.getHttpStatus().value()))
+        .andExpect(jsonPath("$.httpStatusType").value(
+            PatientVisitError.NOT_FOUND_HOSPITAL.getHttpStatus().name()))
+        .andExpect(
+            jsonPath("$.errorMessage").value(PatientVisitError.NOT_FOUND_HOSPITAL.getMessage()))
+        .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint())
         ));
 
-    verify(patientVisitService, times(1)).update(eq(1L),any(PatientVisitUpdateRequest.class));
+    verify(patientVisitService, times(1)).update(eq(1L), any(PatientVisitUpdateRequest.class));
   }
 
   @Test
@@ -935,6 +922,8 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
     mockMvc.perform(delete("/patient-visit/{patientId}", deletePatientVisitId))
         .andExpect(status().isOk())
         .andExpect(content().string("true"));
+
+    verify(patientVisitService, times(1)).delete(1L);
   }
 
   @Test
@@ -950,19 +939,16 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .delete(nonExistingPatientVisitId);
 
     //then
-    mockMvc.perform(delete("/patient-visit/{patientVisitId}",nonExistingPatientVisitId))
+    mockMvc.perform(delete("/patient-visit/{patientVisitId}", nonExistingPatientVisitId))
         .andExpect(status().isNotFound())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.definitionCodeName").value(
-            "me.kbh.clinicsolution.domain.patientvisit.exception.code.PatientVisitError")).
-        andExpect(
-            jsonPath("$.httpStatusCode").value(PatientVisitError.NOT_FOUND.getHttpStatus().value())).
-        andExpect(jsonPath("$.httpStatusType").value(String.valueOf(PatientVisitError.NOT_FOUND))).
-        andExpect(jsonPath("$.errorMessage").value(PatientVisitError.NOT_FOUND.getMessage()))
-        .andDo(
-            document("{class-name}/{method-name}",
-                preprocessResponse(prettyPrint()))
-        );
+            "me.kbh.clinicsolution.domain.patientvisit.exception.code.PatientVisitError"))
+        .andExpect(
+            jsonPath("$.httpStatusCode").value(PatientVisitError.NOT_FOUND.getHttpStatus().value()))
+        .andExpect(jsonPath("$.httpStatusType").value(String.valueOf(PatientVisitError.NOT_FOUND)))
+        .andExpect(jsonPath("$.errorMessage").value(PatientVisitError.NOT_FOUND.getMessage()))
+        .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint())));
 
     verify(patientVisitService, times(1)).delete(1L);
   }

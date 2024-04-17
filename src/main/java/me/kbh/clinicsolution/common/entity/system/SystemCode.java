@@ -39,7 +39,7 @@ public abstract class SystemCode {
     String groupName = discriminatorValue == null ? null : discriminatorValue.value();
     String checkGroupType = toCheckSystemGroupCode.getSystemGroupCodeType().getGroupType();
 
-    if (! Objects.equals(groupName, checkGroupType)) {
+    if (!Objects.equals(groupName, checkGroupType)) {
       throw new SystemGroupCodeBusinessException(SystemGroupCodeError.VALID_SYSTEM_CODE_GROUP);
     }
   }
@@ -50,7 +50,7 @@ public abstract class SystemCode {
     String groupName = discriminatorValue == null ? null : discriminatorValue.value();
     String checkGroupType = systemCode.getParent().getGroupType();
 
-    if (! Objects.equals(groupName, checkGroupType)) {
+    if (!Objects.equals(groupName, checkGroupType)) {
       throw new SystemCodeBusinessException(SystemCodeError.VALID_SYSTEM_CODE);
     }
   }

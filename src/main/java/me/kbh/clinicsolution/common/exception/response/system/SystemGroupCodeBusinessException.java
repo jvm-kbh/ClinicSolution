@@ -9,7 +9,7 @@ import me.kbh.clinicsolution.common.exception.code.system.SystemGroupCodeError;
 @Getter
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SystemGroupCodeBusinessException extends RuntimeException{
+public class SystemGroupCodeBusinessException extends RuntimeException {
 
   SystemGroupCodeError systemGroupCodeError;
 }

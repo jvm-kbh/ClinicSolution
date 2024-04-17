@@ -12,7 +12,8 @@ public interface PatientService extends PatientDefaultExceptionSupplier {
 
   PatientTotalInfoResponse findById(Long patientId);
 
-  PageInfoWrapper<PatientResponse> findAllByCondition(PatientSearchCondition patientSearchCondition, Pageable pageable);
+  PageInfoWrapper<PatientResponse> findAllByCondition(PatientSearchCondition patientSearchCondition,
+      Pageable pageable);
 
   PatientResponse save(PatientSaveRequest patientSaveRequest);
 

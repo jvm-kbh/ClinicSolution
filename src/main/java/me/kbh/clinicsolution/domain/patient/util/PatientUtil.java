@@ -17,7 +17,7 @@ public class PatientUtil {
     }
 
     int zeroToAppend = MAX_LENGTH - PREFIX.length() - numberLength;
-    String paddedNumber = "0".repeat(Math.max(0, zeroToAppend)) + covertNumberString;
+    String paddedNumber = "0" .repeat(Math.max(0, zeroToAppend)) + covertNumberString;
     return PREFIX + paddedNumber;
   }
 }

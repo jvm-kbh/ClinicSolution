@@ -72,6 +72,7 @@
 
 [[overview-http-verbs]]
 == HTTP Methods
+
 |===
 | Method | Usage
 
@@ -90,6 +91,7 @@
 
 [[overview-http-status-codes]]
 == HTTP status codes
+
 |===
 | Status code | Usage
 
