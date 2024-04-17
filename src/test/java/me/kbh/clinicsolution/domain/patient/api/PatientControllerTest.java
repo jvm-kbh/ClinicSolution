@@ -255,42 +255,6 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .hospitalId(1L)
         .build();
 
-    Patient relatePatient = Patient.builderForSave()
-        .patientSaveRequest(patientSaveRequest)
-        .patientRegistrationNumber(patientRegistrationNumber)
-        .hospital(relateHospital)
-        .buildBySaveRequest();
-
-    PatientVisitSaveRequest patientVisitSaveRequest1 = PatientVisitSaveRequest.builder()
-        .visitStatusType(VisitStatusType.VISIT_STATUS_ONE)
-        .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_ONE)
-        .clinicCategoryType(ClinicCategoryType.CLINIC_CATEGORY_D)
-        .patientId(relatePatient.getPatientId())
-        .hospitalId(relateHospital.getHospitalId())
-        .build();
-
-    PatientVisitSaveRequest patientVisitSaveRequest2 = PatientVisitSaveRequest.builder()
-        .visitStatusType(VisitStatusType.VISIT_STATUS_TWO)
-        .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_TWO)
-        .clinicCategoryType(ClinicCategoryType.CLINIC_CATEGORY_T)
-        .patientId(relatePatient.getPatientId())
-        .hospitalId(relateHospital.getHospitalId())
-        .build();
-
-    PatientVisit patientVisit1 = PatientVisit.builderForSave()
-        .patientSaveRequest(patientVisitSaveRequest1)
-        .patient(relatePatient)
-        .hospital(relateHospital)
-        .buildBySaveRequest();
-
-    PatientVisit patientVisit2 = PatientVisit.builderForSave()
-        .patientSaveRequest(patientVisitSaveRequest2)
-        .patient(relatePatient)
-        .hospital(relateHospital)
-        .buildBySaveRequest();
-
-    List<PatientVisit> patientVisitList = List.of(patientVisit1, patientVisit2);
-
     ///when
     when(patientService.findById(1L)).thenThrow(
         new PatientBusinessException(PatientError.NOT_FOUND));
@@ -349,22 +313,6 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .patientRegistrationNumber(patientRegistrationNumber)
         .hospital(relateHospital)
         .buildBySaveRequest();
-
-    PatientVisitSaveRequest patientVisitSaveRequest1 = PatientVisitSaveRequest.builder()
-        .visitStatusType(VisitStatusType.VISIT_STATUS_ONE)
-        .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_ONE)
-        .clinicCategoryType(ClinicCategoryType.CLINIC_CATEGORY_D)
-        .patientId(relatePatient.getPatientId())
-        .hospitalId(relateHospital.getHospitalId())
-        .build();
-
-    PatientVisitSaveRequest patientVisitSaveRequest2 = PatientVisitSaveRequest.builder()
-        .visitStatusType(VisitStatusType.VISIT_STATUS_TWO)
-        .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_TWO)
-        .clinicCategoryType(ClinicCategoryType.CLINIC_CATEGORY_T)
-        .patientId(relatePatient.getPatientId())
-        .hospitalId(relateHospital.getHospitalId())
-        .build();
 
     PatientSearchCondition patientSearchCondition = PatientSearchCondition.builder()
         .patientName("환자1")
