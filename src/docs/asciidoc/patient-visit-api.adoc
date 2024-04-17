@@ -1,19 +1,28 @@
 == 환자 방문 정보 조회
+
 operation::patient-visit-controller-test/by-search-request-id[snippets="curl-request,path-parameters,http-request,response-fields,http-response"]
 operation::patient-visit-controller-test/by-search-request-id_patient-visit-not-found-exception[snippets="http-response"]
+
 == 환자 방문 정보 목록 조회
+
 operation::patient-visit-controller-test/all[snippets="curl-request,http-request,response-fields,http-response"]
 operation::patient-visit-controller-test/all_no-result[snippets="http-response"]
+
 == 환자 방문 정보 저장
+
 operation::patient-visit-controller-test/by-save-request[snippets="curl-request,http-request,response-fields,http-response"]
 operation::patient-visit-controller-test/by-save-request_method-argument-not-valid-exception[snippets="http-response"]
 operation::patient-visit-controller-test/by-save-request_patient-visit-business-exception_not-found-hospital[snippets="http-response"]
 operation::patient-visit-controller-test/by-save-request_patient-visit-business-exception_not-found-patient[snippets="http-response"]
+
 == 환자 방문 정보 수정
+
 operation::patient-visit-controller-test/by-update-request[snippets="curl-request,http-request,response-fields,http-response"]
 operation::patient-visit-controller-test/by-update-request_method-argument-not-valid-exception[snippets="http-response"]
 operation::patient-visit-controller-test/by-update-request_patient-visit-business-exception_not-found-hospital[snippets="http-response"]
 operation::patient-visit-controller-test/by-update-request_patient-visit-business-exception_not-found-patient[snippets="http-response"]
+
 == 환자 방문 정보 삭제
+
 operation::patient-visit-controller-test/by-delete-request-id[snippets="curl-request,http-request"]
 operation::patient-visit-controller-test/by-delete-request-id_patient-visit-business-exception[snippets="http-response"]

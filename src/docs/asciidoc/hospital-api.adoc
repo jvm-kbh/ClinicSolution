@@ -1,15 +1,24 @@
 == 병원 정보 조회
+
 operation::hospital-controller-test/by-search-request-id[snippets="curl-request,path-parameters,http-request,response-fields,http-response"]
 operation::hospital-controller-test/by-search-request-id_-hospital-not-found-exception[snippets="http-response"]
+
 == 병원 정보 목록 조회
+
 operation::hospital-controller-test/all[snippets="curl-request,http-request,response-fields,http-response"]
 operation::hospital-controller-test/all_no-results[snippets="http-response"]
+
 == 병원 정보 저장
+
 operation::hospital-controller-test/by-save-request[snippets="curl-request,http-request,response-fields,http-response"]
 operation::hospital-controller-test/by-save-request_-method-argument-not-valid-exception[snippets="http-response"]
+
 == 병원 정보 수정
+
 operation::hospital-controller-test/by-update-request[snippets="curl-request,http-request,response-fields,http-response"]
 operation::hospital-controller-test/by-update-request_-method-argument-not-valid-exception[snippets="http-response"]
+
 == 병원 정보 삭제
+
 operation::hospital-controller-test/by-delete-request-id[snippets="curl-request,http-request"]
 operation::hospital-controller-test/by-delete-request-id_-hospital-business-exception[snippets="http-response"]

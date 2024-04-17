@@ -50,7 +50,8 @@ public class PatientServiceImpl implements PatientService {
       PatientSearchCondition patientSearchCondition,
       Pageable pageable
   ) {
-    Page<Patient> patientPage = patientRepository.findAllByCondition(patientSearchCondition, pageable);
+    Page<Patient> patientPage = patientRepository.findAllByCondition(patientSearchCondition,
+        pageable);
     Function<Patient, PatientResponse> mappingByEntityFunction = patient -> PatientResponse.builder()
         .mappingByEntity(patient)
         .build();
@@ -59,7 +60,7 @@ public class PatientServiceImpl implements PatientService {
         .map(mappingByEntityFunction)
         .toList();
 
-    return new PageInfoWrapper<>(patientResponseList,patientPage);
+    return new PageInfoWrapper<>(patientResponseList, patientPage);
   }
 
   @Override

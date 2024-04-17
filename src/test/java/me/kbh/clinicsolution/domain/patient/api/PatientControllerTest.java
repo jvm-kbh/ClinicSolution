@@ -708,9 +708,11 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .hospitalId(2L)
         .build();
 
-    relatePatient.update(patientUpdateRequest, anotherSaveHospital, anotherPatientRegistrationNumber);
+    relatePatient.update(patientUpdateRequest, anotherSaveHospital,
+        anotherPatientRegistrationNumber);
 
-    PatientResponse patientResponse = PatientResponse.builder().mappingByEntity(relatePatient).build();
+    PatientResponse patientResponse = PatientResponse.builder().mappingByEntity(relatePatient)
+        .build();
 
     //when
     when(patientService.update(eq(1L), any(PatientUpdateRequest.class))).thenReturn(

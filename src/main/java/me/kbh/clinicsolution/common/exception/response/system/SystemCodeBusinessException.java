@@ -9,6 +9,7 @@ import me.kbh.clinicsolution.common.exception.code.system.SystemCodeError;
 @Getter
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SystemCodeBusinessException extends RuntimeException{
+public class SystemCodeBusinessException extends RuntimeException {
+
   SystemCodeError systemCodeError;
 }
