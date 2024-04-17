@@ -112,7 +112,7 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .hospitalId(1L)
         .build();
 
-    Patient patient = Patient.builderForSave()
+    Patient relatePatient = Patient.builderForSave()
         .patientSaveRequest(patientSaveRequest)
         .patientRegistrationNumber(patientRegistrationNumber)
         .hospital(relateHospital)
@@ -122,7 +122,7 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .visitStatusType(VisitStatusType.VISIT_STATUS_ONE)
         .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_ONE)
         .clinicCategoryType(ClinicCategoryType.CLINIC_CATEGORY_D)
-        .patientId(patient.getPatientId())
+        .patientId(relatePatient.getPatientId())
         .hospitalId(relateHospital.getHospitalId())
         .build();
 
@@ -130,26 +130,26 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .visitStatusType(VisitStatusType.VISIT_STATUS_TWO)
         .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_TWO)
         .clinicCategoryType(ClinicCategoryType.CLINIC_CATEGORY_T)
-        .patientId(patient.getPatientId())
+        .patientId(relatePatient.getPatientId())
         .hospitalId(relateHospital.getHospitalId())
         .build();
 
     PatientVisit patientVisit1 = PatientVisit.builderForSave()
         .patientSaveRequest(patientVisitSaveRequest1)
-        .patient(patient)
+        .patient(relatePatient)
         .hospital(relateHospital)
         .buildBySaveRequest();
 
     PatientVisit patientVisit2 = PatientVisit.builderForSave()
         .patientSaveRequest(patientVisitSaveRequest2)
-        .patient(patient)
+        .patient(relatePatient)
         .hospital(relateHospital)
         .buildBySaveRequest();
 
     List<PatientVisit> patientVisitList = List.of(patientVisit1, patientVisit2);
 
     PatientTotalInfoResponse patientTotalInfoResponse = PatientTotalInfoResponse.builder()
-        .mappingByEntity(patient)
+        .mappingByEntity(relatePatient)
         .patientVisitList(patientVisitList)
         .build();
 
@@ -169,7 +169,7 @@ class PatientControllerTest extends AbstractRestDocsTests {
             .optional()
     );
     mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/patient/{patientId}", 1L)
+            RestDocumentationRequestBuilders.get("/relatePatient/{patientId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -255,7 +255,7 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .hospitalId(1L)
         .build();
 
-    Patient patient = Patient.builderForSave()
+    Patient relatePatient = Patient.builderForSave()
         .patientSaveRequest(patientSaveRequest)
         .patientRegistrationNumber(patientRegistrationNumber)
         .hospital(relateHospital)
@@ -265,7 +265,7 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .visitStatusType(VisitStatusType.VISIT_STATUS_ONE)
         .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_ONE)
         .clinicCategoryType(ClinicCategoryType.CLINIC_CATEGORY_D)
-        .patientId(patient.getPatientId())
+        .patientId(relatePatient.getPatientId())
         .hospitalId(relateHospital.getHospitalId())
         .build();
 
@@ -273,19 +273,19 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .visitStatusType(VisitStatusType.VISIT_STATUS_TWO)
         .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_TWO)
         .clinicCategoryType(ClinicCategoryType.CLINIC_CATEGORY_T)
-        .patientId(patient.getPatientId())
+        .patientId(relatePatient.getPatientId())
         .hospitalId(relateHospital.getHospitalId())
         .build();
 
     PatientVisit patientVisit1 = PatientVisit.builderForSave()
         .patientSaveRequest(patientVisitSaveRequest1)
-        .patient(patient)
+        .patient(relatePatient)
         .hospital(relateHospital)
         .buildBySaveRequest();
 
     PatientVisit patientVisit2 = PatientVisit.builderForSave()
         .patientSaveRequest(patientVisitSaveRequest2)
-        .patient(patient)
+        .patient(relatePatient)
         .hospital(relateHospital)
         .buildBySaveRequest();
 
@@ -297,13 +297,13 @@ class PatientControllerTest extends AbstractRestDocsTests {
 
     //then
     mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/patient/{patientId}", 1L)
+            RestDocumentationRequestBuilders.get("/relatePatient/{patientId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isNotFound())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.definitionCodeName").value(
-            "me.kbh.clinicsolution.domain.patient.exception.code.PatientError")).
+            "me.kbh.clinicsolution.domain.relatePatient.exception.code.PatientError")).
         andExpect(
             jsonPath("$.httpStatusCode").value(PatientError.NOT_FOUND.getHttpStatus().value())).
         andExpect(jsonPath("$.httpStatusType").value(String.valueOf(PatientError.NOT_FOUND))).
@@ -344,7 +344,7 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .hospitalId(1L)
         .build();
 
-    Patient patient = Patient.builderForSave()
+    Patient relatePatient = Patient.builderForSave()
         .patientSaveRequest(patientSaveRequest)
         .patientRegistrationNumber(patientRegistrationNumber)
         .hospital(relateHospital)
@@ -354,7 +354,7 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .visitStatusType(VisitStatusType.VISIT_STATUS_ONE)
         .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_ONE)
         .clinicCategoryType(ClinicCategoryType.CLINIC_CATEGORY_D)
-        .patientId(patient.getPatientId())
+        .patientId(relatePatient.getPatientId())
         .hospitalId(relateHospital.getHospitalId())
         .build();
 
@@ -362,21 +362,9 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .visitStatusType(VisitStatusType.VISIT_STATUS_TWO)
         .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_TWO)
         .clinicCategoryType(ClinicCategoryType.CLINIC_CATEGORY_T)
-        .patientId(patient.getPatientId())
+        .patientId(relatePatient.getPatientId())
         .hospitalId(relateHospital.getHospitalId())
         .build();
-
-    PatientVisit patientVisit1 = PatientVisit.builderForSave()
-        .patientSaveRequest(patientVisitSaveRequest1)
-        .patient(patient)
-        .hospital(relateHospital)
-        .buildBySaveRequest();
-
-    PatientVisit patientVisit2 = PatientVisit.builderForSave()
-        .patientSaveRequest(patientVisitSaveRequest2)
-        .patient(patient)
-        .hospital(relateHospital)
-        .buildBySaveRequest();
 
     PatientSearchCondition patientSearchCondition = PatientSearchCondition.builder()
         .patientName("환자1")
@@ -386,7 +374,7 @@ class PatientControllerTest extends AbstractRestDocsTests {
 
     Pageable pageable = PageRequest.of(0, 10);
 
-    List<Patient> patientList = List.of(patient);
+    List<Patient> patientList = List.of(relatePatient);
     Page<Patient> patientPage = new PageImpl<>(patientList, pageable, 1);
 
     Function<Patient, PatientResponse> mappingByEntityFunction = entity -> PatientResponse.builder()
@@ -424,7 +412,7 @@ class PatientControllerTest extends AbstractRestDocsTests {
     );
 
     mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/patient/all/condition")
+            RestDocumentationRequestBuilders.get("/relatePatient/all/condition")
                 .param("patientName", patientSearchCondition.getPatientName())
                 .param("patientRegistrationNumber",
                     patientSearchCondition.getPatientRegistrationNumber())
@@ -541,14 +529,14 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .hospitalId(1L)
         .build();
 
-    Patient patient = Patient.builderForSave()
+    Patient relatePatient = Patient.builderForSave()
         .patientSaveRequest(patientSaveRequest)
         .patientRegistrationNumber(patientRegistrationNumber)
         .hospital(relateHospital)
         .buildBySaveRequest();
 
     PatientResponse patientResponse = PatientResponse.builder()
-        .mappingByEntity(patient)
+        .mappingByEntity(relatePatient)
         .build();
 
     //when
@@ -691,7 +679,7 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .hospitalId(1L)
         .build();
 
-    Patient patient = Patient.builderForSave()
+    Patient relatePatient = Patient.builderForSave()
         .patientSaveRequest(patientSaveRequest)
         .patientRegistrationNumber(patientRegistrationNumber)
         .hospital(saveHospital)
@@ -720,9 +708,9 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .hospitalId(2L)
         .build();
 
-    patient.update(patientUpdateRequest, anotherSaveHospital, anotherPatientRegistrationNumber);
+    relatePatient.update(patientUpdateRequest, anotherSaveHospital, anotherPatientRegistrationNumber);
 
-    PatientResponse patientResponse = PatientResponse.builder().mappingByEntity(patient).build();
+    PatientResponse patientResponse = PatientResponse.builder().mappingByEntity(relatePatient).build();
 
     //when
     when(patientService.update(eq(1L), any(PatientUpdateRequest.class))).thenReturn(

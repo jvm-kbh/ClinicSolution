@@ -114,14 +114,14 @@ class HospitalControllerTest extends AbstractRestDocsTests {
   @DisplayName("하나의 병원정보 요청 - [case: 존재하지 않는 경우]")
   void bySearchRequestId_HospitalNotFoundException() throws Exception {
     // given
-    HospitalSaveRequest request = HospitalSaveRequest.builder()
+    HospitalSaveRequest hospitalSaveRequest = HospitalSaveRequest.builder()
         .hospitalName("병원1")
         .medicalInstitutionNumber("기관번호1")
         .hospitalDirectorName("병원장1")
         .build();
 
     Hospital hospital = Hospital.builderForSave()
-        .hospitalSaveRequest(request)
+        .hospitalSaveRequest(hospitalSaveRequest)
         .buildBySaveRequest();
 
     HospitalResponse hospitalResponse
@@ -157,22 +157,22 @@ class HospitalControllerTest extends AbstractRestDocsTests {
   @DisplayName("병원 정보 전체 리스트 요청")
   void all() throws Exception {
     // given
-    HospitalSaveRequest request1 = HospitalSaveRequest.builder()
+    HospitalSaveRequest hospitalSaveRequest1 = HospitalSaveRequest.builder()
         .hospitalName("병원1")
         .medicalInstitutionNumber("기관번호1")
         .hospitalDirectorName("병원장1")
         .build();
     Hospital hospital1 = Hospital.builderForSave()
-        .hospitalSaveRequest(request1)
+        .hospitalSaveRequest(hospitalSaveRequest1)
         .buildBySaveRequest();
 
-    HospitalSaveRequest request2 = HospitalSaveRequest.builder()
+    HospitalSaveRequest hospitalSaveRequest2 = HospitalSaveRequest.builder()
         .hospitalName("병원2")
         .medicalInstitutionNumber("기관번호2")
         .hospitalDirectorName("병원장2")
         .build();
     Hospital hospital2 = Hospital.builderForSave()
-        .hospitalSaveRequest(request2)
+        .hospitalSaveRequest(hospitalSaveRequest2)
         .buildBySaveRequest();
 
     List<HospitalResponse> hospitalResponseList = Arrays.asList(
@@ -237,14 +237,14 @@ class HospitalControllerTest extends AbstractRestDocsTests {
   @DisplayName("병원 정보 저장")
   void bySaveRequest() throws Exception {
     // given
-    HospitalSaveRequest request = HospitalSaveRequest.builder()
+    HospitalSaveRequest hospitalSaveRequest = HospitalSaveRequest.builder()
         .hospitalName("병원1")
         .medicalInstitutionNumber("기관번호1")
         .hospitalDirectorName("병원장1")
         .build();
 
     Hospital hospital = Hospital.builderForSave()
-        .hospitalSaveRequest(request)
+        .hospitalSaveRequest(hospitalSaveRequest)
         .buildBySaveRequest();
 
     HospitalResponse hospitalResponse = HospitalResponse.builder()
@@ -274,7 +274,7 @@ class HospitalControllerTest extends AbstractRestDocsTests {
     mockMvc.perform(
             MockMvcRequestBuilders.post("/hospital")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
+                .content(objectMapper.writeValueAsString(hospitalSaveRequest))
         )
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -297,15 +297,11 @@ class HospitalControllerTest extends AbstractRestDocsTests {
   void bySaveRequest_MethodArgumentNotValidException() throws Exception {
     // given
     String testLongString = "병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병";
-    HospitalSaveRequest request = HospitalSaveRequest.builder()
+    HospitalSaveRequest hospitalSaveRequest = HospitalSaveRequest.builder()
         .hospitalName(testLongString)
         .medicalInstitutionNumber(testLongString)
         .hospitalDirectorName(testLongString)
         .build();
-
-    Hospital hospital = Hospital.builderForSave()
-        .hospitalSaveRequest(request)
-        .buildBySaveRequest();
 
     // when
     when(hospitalService.save(any(HospitalSaveRequest.class))).thenThrow(RuntimeException.class);
@@ -313,7 +309,7 @@ class HospitalControllerTest extends AbstractRestDocsTests {
     mockMvc.perform(
             MockMvcRequestBuilders.post("/hospital")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
+                .content(objectMapper.writeValueAsString(hospitalSaveRequest))
         )
         .andExpect(status().isBadRequest())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -332,23 +328,23 @@ class HospitalControllerTest extends AbstractRestDocsTests {
   @DisplayName("병원 정보 수정")
   void byUpdateRequest() throws Exception {
     // given
-    HospitalSaveRequest saveRequest = HospitalSaveRequest.builder()
+    HospitalSaveRequest hospitalSaveRequest = HospitalSaveRequest.builder()
         .hospitalName("병원1")
         .medicalInstitutionNumber("기관번호1")
         .hospitalDirectorName("병원장1")
         .build();
 
     Hospital hospital = Hospital.builderForSave()
-        .hospitalSaveRequest(saveRequest)
+        .hospitalSaveRequest(hospitalSaveRequest)
         .buildBySaveRequest();
 
-    HospitalUpdateRequest updateRequest = HospitalUpdateRequest.builder()
+    HospitalUpdateRequest hospitalUpdateRequest = HospitalUpdateRequest.builder()
         .hospitalName("병원2")
         .medicalInstitutionNumber("기관번호2")
         .hospitalDirectorName("병원장2")
         .build();
 
-    hospital.update(updateRequest);
+    hospital.update(hospitalUpdateRequest);
 
     HospitalResponse updatedHospitalResponse = HospitalResponse.builder()
         .mappingByEntity(hospital)
@@ -379,7 +375,7 @@ class HospitalControllerTest extends AbstractRestDocsTests {
             MockMvcRequestBuilders.put("/hospital/{hospitalId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updateRequest))
+                .content(objectMapper.writeValueAsString(hospitalUpdateRequest))
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.hospitalName").value("병원2"))
@@ -400,25 +396,25 @@ class HospitalControllerTest extends AbstractRestDocsTests {
   @DisplayName("병원 정보 수정 - [case: 각 요청 값이 긴 경우]")
   void byUpdateRequest_MethodArgumentNotValidException() throws Exception {
     // given
-    HospitalSaveRequest saveRequest = HospitalSaveRequest.builder()
+    HospitalSaveRequest hospitalSaveRequest = HospitalSaveRequest.builder()
         .hospitalName("병원1")
         .medicalInstitutionNumber("기관번호1")
         .hospitalDirectorName("병원장1")
         .build();
 
     Hospital hospital = Hospital.builderForSave()
-        .hospitalSaveRequest(saveRequest)
+        .hospitalSaveRequest(hospitalSaveRequest)
         .buildBySaveRequest();
 
     String testLongString = "병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병";
 
-    HospitalUpdateRequest updateRequest = HospitalUpdateRequest.builder()
+    HospitalUpdateRequest hospitalUpdateRequest = HospitalUpdateRequest.builder()
         .hospitalName(testLongString)
         .medicalInstitutionNumber(testLongString)
         .hospitalDirectorName(testLongString)
         .build();
 
-    hospital.update(updateRequest);
+    hospital.update(hospitalUpdateRequest);
 
     // when
     when(hospitalService.update(any(Long.class), any(HospitalUpdateRequest.class))).thenThrow(
@@ -428,7 +424,7 @@ class HospitalControllerTest extends AbstractRestDocsTests {
             MockMvcRequestBuilders.put("/hospital/{hospitalId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updateRequest))
+                .content(objectMapper.writeValueAsString(hospitalUpdateRequest))
         )
         .andExpect(status().isBadRequest())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
