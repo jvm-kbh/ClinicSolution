@@ -94,10 +94,15 @@ public class PatientServiceImpl implements PatientService {
     Hospital relateHospital = hospitalRepository.findById(patientUpdateRequest.getHospitalId())
         .orElseThrow(hospitalNotException());
 
+    relateHospital.increasePatientVisitCount();
+
+    String patientRegistrationNumber = PatientUtil.generatePatientRegistrationNumber(
+        relateHospital.getPatientVisitCount());
+
     Patient patient =
         patientRepository.findById(patientId).orElseThrow(patientNotFoundException());
 
-    patient.update(patientUpdateRequest, relateHospital);
+    patient.update(patientUpdateRequest, relateHospital, patientRegistrationNumber);
 
     return PatientResponse.builder().mappingByEntity(patient).build();
   }

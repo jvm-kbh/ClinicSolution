@@ -2,6 +2,7 @@ package me.kbh.clinicsolution.domain.patientvisit.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,6 +39,7 @@ public class PatientVisitResponse implements Serializable {
     this.hospital = HospitalResponse.builder()
         .mappingByEntity(mappingByEntity.getHospital())
         .build();
-    this.createAt = mappingByEntity.getCreatedDate().toLocalDate();
+    Optional.ofNullable(mappingByEntity.getCreatedDate())
+        .ifPresent(localDateTime -> this.createAt = localDateTime.toLocalDate());
   }
 }
