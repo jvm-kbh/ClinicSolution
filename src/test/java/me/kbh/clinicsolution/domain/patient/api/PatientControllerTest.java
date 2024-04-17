@@ -291,11 +291,6 @@ class PatientControllerTest extends AbstractRestDocsTests {
 
     List<PatientVisit> patientVisitList = List.of(patientVisit1, patientVisit2);
 
-    PatientTotalInfoResponse patientTotalInfoResponse = PatientTotalInfoResponse.builder()
-        .mappingByEntity(patient)
-        .patientVisitList(patientVisitList)
-        .build();
-
     ///when
     when(patientService.findById(1L)).thenThrow(
         new PatientBusinessException(PatientError.NOT_FOUND));
@@ -382,8 +377,6 @@ class PatientControllerTest extends AbstractRestDocsTests {
         .patient(patient)
         .hospital(relateHospital)
         .buildBySaveRequest();
-
-    List<PatientVisit> patientVisitList = List.of(patientVisit1, patientVisit2);
 
     PatientSearchCondition patientSearchCondition = PatientSearchCondition.builder()
         .patientName("환자1")

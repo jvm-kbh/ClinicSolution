@@ -507,12 +507,6 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .hospitalId(1L)
         .build();
 
-    Patient patient = Patient.builderForSave()
-        .patientSaveRequest(patientSaveRequest)
-        .patientRegistrationNumber(patientRegistrationNumber)
-        .hospital(relateHospital)
-        .buildBySaveRequest();
-
     PatientVisitSaveRequest patientVisitSaveRequest = PatientVisitSaveRequest.builder()
         .visitStatusType(VisitStatusType.VISIT_STATUS_ONE)
         .clinicSubjectType(ClinicSubjectType.CLINIC_SUBJECT_ONE)
@@ -569,12 +563,6 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .phoneNumber("010-9999-9999")
         .hospitalId(1L)
         .build();
-
-    Patient patient = Patient.builderForSave()
-        .patientSaveRequest(patientSaveRequest)
-        .patientRegistrationNumber(patientRegistrationNumber)
-        .hospital(relateHospital)
-        .buildBySaveRequest();
 
     PatientVisitSaveRequest patientVisitSaveRequest = PatientVisitSaveRequest.builder()
         .visitStatusType(VisitStatusType.VISIT_STATUS_ONE)
@@ -809,10 +797,6 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
 
     patientVisit.update(patientVisitUpdateRequest, relateHospital, patient);
 
-    PatientVisitResponse patientVisitResponse = PatientVisitResponse.builder()
-        .mappingByEntity(patientVisit)
-        .build();
-
     //when
     when(patientVisitService.update(eq(1L), any(PatientVisitUpdateRequest.class)))
         .thenThrow(new PatientVisitBusinessException(PatientVisitError.NOT_FOUND_PATIENT));
@@ -895,10 +879,6 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .build();
 
     patientVisit.update(patientVisitUpdateRequest, relateHospital, patient);
-
-    PatientVisitResponse patientVisitResponse = PatientVisitResponse.builder()
-        .mappingByEntity(patientVisit)
-        .build();
 
     //when
     when(patientVisitService.update(eq(1L), any(PatientVisitUpdateRequest.class)))

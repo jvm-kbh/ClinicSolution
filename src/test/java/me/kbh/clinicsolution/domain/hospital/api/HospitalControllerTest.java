@@ -307,10 +307,6 @@ class HospitalControllerTest extends AbstractRestDocsTests {
         .hospitalSaveRequest(request)
         .buildBySaveRequest();
 
-    HospitalResponse hospitalResponse = HospitalResponse.builder()
-        .mappingByEntity(hospital)
-        .build();
-
     // when
     when(hospitalService.save(any(HospitalSaveRequest.class))).thenThrow(RuntimeException.class);
 
@@ -423,10 +419,6 @@ class HospitalControllerTest extends AbstractRestDocsTests {
         .build();
 
     hospital.update(updateRequest);
-
-    HospitalResponse updatedHospitalResponse = HospitalResponse.builder()
-        .mappingByEntity(hospital)
-        .build();
 
     // when
     when(hospitalService.update(any(Long.class), any(HospitalUpdateRequest.class))).thenThrow(
