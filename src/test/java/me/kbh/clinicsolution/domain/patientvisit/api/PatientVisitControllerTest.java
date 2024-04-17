@@ -148,11 +148,11 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         fieldWithPath("clinicCategoryCode").description(CLINIC_CATEGORY_CODE),
         fieldWithPath("createAt").description(CREATE_AT),
         subsectionWithPath("hospital").description(HOSPITAL_ID),
-        subsectionWithPath("relatePatient").description(PATIENT)
+        subsectionWithPath("patient").description(PATIENT)
     );
 
     mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/relatePatient-visit/{patientVisitId}", 1L)
+            RestDocumentationRequestBuilders.get("/patient-visit/{patientVisitId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -286,7 +286,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
 
     //then
     mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/relatePatient-visit/all")
+            RestDocumentationRequestBuilders.get("/patient-visit/all")
                 .contentType(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -315,18 +315,18 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
                     MEDICAL_INSTITUTION_NUMBER),
                 fieldWithPath("[].hospital.hospitalDirectorName").description(
                     HOSPITAL_DIRECTOR_NAME),
-                fieldWithPath("[].relatePatient.patientId").description(PATIENT_ID),
-                fieldWithPath("[].relatePatient.patientName").description(PATIENT_NAME),
-                fieldWithPath("[].relatePatient.patientRegistrationNumber").description(
+                fieldWithPath("[].patient.patientId").description(PATIENT_ID),
+                fieldWithPath("[].patient.patientName").description(PATIENT_NAME),
+                fieldWithPath("[].patient.patientRegistrationNumber").description(
                     PATIENT_REGISTRATION_NUMBER),
-                fieldWithPath("[].relatePatient.genderCode").description(GENDER_CODE),
-                fieldWithPath("[].relatePatient.birthDate").description(BIRTH_DATE),
-                fieldWithPath("[].relatePatient.phoneNumber").description(PHONE_NUMBER),
-                fieldWithPath("[].relatePatient.hospital.hospitalId").description(HOSPITAL_ID),
-                fieldWithPath("[].relatePatient.hospital.hospitalName").description(HOSPITAL_NAME),
-                fieldWithPath("[].relatePatient.hospital.medicalInstitutionNumber").description(
+                fieldWithPath("[].patient.genderCode").description(GENDER_CODE),
+                fieldWithPath("[].patient.birthDate").description(BIRTH_DATE),
+                fieldWithPath("[].patient.phoneNumber").description(PHONE_NUMBER),
+                fieldWithPath("[].patient.hospital.hospitalId").description(HOSPITAL_ID),
+                fieldWithPath("[].patient.hospital.hospitalName").description(HOSPITAL_NAME),
+                fieldWithPath("[].patient.hospital.medicalInstitutionNumber").description(
                     MEDICAL_INSTITUTION_NUMBER),
-                fieldWithPath("[].relatePatient.hospital.hospitalDirectorName").description(
+                fieldWithPath("[].patient.hospital.hospitalDirectorName").description(
                     HOSPITAL_DIRECTOR_NAME),
                 fieldWithPath("[].createAt").description(CREATE_AT)
             )
@@ -428,7 +428,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         fieldWithPath("clinicCategoryCode").description(CLINIC_CATEGORY_CODE),
         fieldWithPath("createAt").description(CREATE_AT),
         subsectionWithPath("hospital").description(HOSPITAL),
-        subsectionWithPath("relatePatient").description(PATIENT)
+        subsectionWithPath("patient").description(PATIENT)
     );
 
     mockMvc.perform(

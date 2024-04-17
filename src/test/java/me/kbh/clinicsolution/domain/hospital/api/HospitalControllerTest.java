@@ -294,7 +294,7 @@ class HospitalControllerTest extends AbstractRestDocsTests {
   @Test
   @Order(6)
   @DisplayName("병원 정보 저장 - [case: 각 요청 값이 긴 경우]")
-  void bySaveRequest_MethodArgumentNotValidException() throws Exception {
+  void bySaveRequest_methodArgumentNotValidException() throws Exception {
     // given
     String testLongString = "병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병병";
     HospitalSaveRequest hospitalSaveRequest = HospitalSaveRequest.builder()
@@ -394,7 +394,7 @@ class HospitalControllerTest extends AbstractRestDocsTests {
   @Test
   @Order(8)
   @DisplayName("병원 정보 수정 - [case: 각 요청 값이 긴 경우]")
-  void byUpdateRequest_MethodArgumentNotValidException() throws Exception {
+  void byUpdateRequest_methodArgumentNotValidException() throws Exception {
     // given
     HospitalSaveRequest hospitalSaveRequest = HospitalSaveRequest.builder()
         .hospitalName("병원1")
@@ -453,7 +453,7 @@ class HospitalControllerTest extends AbstractRestDocsTests {
   @Test
   @Order(10)
   @DisplayName("병원 정보 삭제 - [case: 요청한 병원이 없는 경우")
-  void byDeleteRequestId_HospitalBusinessException() throws Exception {
+  void byDeleteRequestId_hospitalBusinessException() throws Exception {
     Long nonExistingHospitalId = 1L;
 
     doThrow(new HospitalBusinessException(HospitalError.NOT_FOUND))

@@ -169,7 +169,7 @@ class PatientControllerTest extends AbstractRestDocsTests {
             .optional()
     );
     mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/relatePatient/{patientId}", 1L)
+            RestDocumentationRequestBuilders.get("/patient/{patientId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -297,13 +297,13 @@ class PatientControllerTest extends AbstractRestDocsTests {
 
     //then
     mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/relatePatient/{patientId}", 1L)
+            RestDocumentationRequestBuilders.get("/patient/{patientId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isNotFound())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.definitionCodeName").value(
-            "me.kbh.clinicsolution.domain.relatePatient.exception.code.PatientError")).
+            "me.kbh.clinicsolution.domain.patient.exception.code.PatientError")).
         andExpect(
             jsonPath("$.httpStatusCode").value(PatientError.NOT_FOUND.getHttpStatus().value())).
         andExpect(jsonPath("$.httpStatusType").value(String.valueOf(PatientError.NOT_FOUND))).
@@ -412,7 +412,7 @@ class PatientControllerTest extends AbstractRestDocsTests {
     );
 
     mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/relatePatient/all/condition")
+            RestDocumentationRequestBuilders.get("/patient/all/condition")
                 .param("patientName", patientSearchCondition.getPatientName())
                 .param("patientRegistrationNumber",
                     patientSearchCondition.getPatientRegistrationNumber())
