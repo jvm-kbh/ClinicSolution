@@ -17,10 +17,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PatientSaveRequest {
 
-  @NotNull
+  @NotNull(message = "환자 이름은 필수 값입니다.")
   String patientName;
 
-  @NotNull
+  @NotNull(message = "성별 코드 값은 필수 값입니다.")
   GenderType genderType;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")

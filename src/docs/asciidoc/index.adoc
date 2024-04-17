@@ -106,4 +106,9 @@
 | 서버 에러
 |===
 
+<<<<<<< HEAD
 include::hospital-api.adoc[]
+=======
+include::hospital-api.adoc[]
+include::patient-api.adoc[]
+>>>>>>> feature/test-patient

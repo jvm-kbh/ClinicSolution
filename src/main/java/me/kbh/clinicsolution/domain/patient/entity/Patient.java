@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDate;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,7 +63,8 @@ public class Patient extends BaseEntity {
   protected Patient(PatientSaveRequest patientSaveRequest, Hospital hospital,
       String patientRegistrationNumber) {
     this.patientName = patientSaveRequest.getPatientName();
-    this.genderCode = patientSaveRequest.getGenderType().getName();
+    Optional.ofNullable(patientSaveRequest.getGenderType())
+        .ifPresent(genderType -> this.genderCode = genderType.getName());
     this.birthDate = patientSaveRequest.getBirthDate();
     this.phoneNumber = patientSaveRequest.getPhoneNumber();
     this.hospital = hospital;
@@ -70,11 +72,12 @@ public class Patient extends BaseEntity {
   }
 
   public void update(PatientUpdateRequest patientUpdateRequest,
-      Hospital hospital) {
+      Hospital hospital, String patientRegistrationNumber) {
     this.patientName = patientUpdateRequest.getPatientName();
     this.genderCode = patientUpdateRequest.getGenderType().getName();
     this.birthDate = patientUpdateRequest.getBirthDate();
     this.phoneNumber = patientUpdateRequest.getPhoneNumber();
     this.hospital = hospital;
+    this.patientRegistrationNumber = patientRegistrationNumber;
   }
 }

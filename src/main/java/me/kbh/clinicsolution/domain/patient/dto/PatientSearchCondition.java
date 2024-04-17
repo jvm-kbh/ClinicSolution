@@ -3,6 +3,7 @@ package me.kbh.clinicsolution.domain.patient.dto;
 import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,4 +21,15 @@ public class PatientSearchCondition {
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   LocalDate birthDate;
+
+  @Builder
+  protected PatientSearchCondition(
+      String patientName,
+      String patientRegistrationNumber,
+      LocalDate birthDate
+  ) {
+    this.patientName = patientName;
+    this.patientRegistrationNumber = patientRegistrationNumber;
+    this.birthDate = birthDate;
+  }
 }
