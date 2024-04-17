@@ -15,17 +15,35 @@ Content-Type: application/json
   "phoneNumber" : "010-6278-9770",
   "hospitalId" : 1
 }
+### wrong case
+
+POST http://localhost:8080/patient
+Content-Type: application/json
+
+{
+  "birthDate" : "1988-10-20" ,
+  "phoneNumber" : "010-6278-97702222222",
+  "hospitalId" : -1
+}
+
+### wrong case
+
+POST http://localhost:8080/patient
+Content-Type: application/json
+
+{
+  "birthDate" : "1988-10-299999"
+}
+
 ###
 
 POST http://localhost:8080/patient
 Content-Type: application/json
 
 {
-"patientName" : "김보훈" ,
-"genderType" : "GENDER_MAN" ,
-"birthDate" : "1988-10-20" ,
-"phoneNumber" : "010-6278-9000",
-"hospitalId" : 1
+  "birthDate" : "1988-10-20222222" ,
+  "phoneNumber" : "010-6278-900022222",
+  "hospitalId" : -1
 }
 
 ###
@@ -37,7 +55,7 @@ Content-Type: application/json
   "genderType" : "GENDER_FEMALE" ,
   "birthDate" : "1988-10-20" ,
   "phoneNumber" : "010-6278-9770",
-  "hospitalId" : 1
+  "hospitalId" : 111111111
 }
 
 ###
