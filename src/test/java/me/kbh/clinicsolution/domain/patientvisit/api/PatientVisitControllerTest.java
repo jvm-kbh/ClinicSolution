@@ -721,6 +721,36 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
 
   @Test
   @Order(7)
+  @DisplayName("환자 방문 정보 수정 - [case: 요청 값 형식 불일치")
+  void byUpdateRequest_methodArgumentNotValidException() throws Exception {
+    //given
+    PatientVisitUpdateRequest patientVisitUpdateRequest = PatientVisitUpdateRequest.builder().build();
+
+    //when
+    when(patientVisitService.update(eq(1L), any(PatientVisitUpdateRequest.class))).thenThrow(RuntimeException.class);
+
+    //then
+
+    mockMvc.perform(
+            MockMvcRequestBuilders.put("/patient-visit/{patientVisitId}", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(patientVisitUpdateRequest))
+        )
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.patientId").value("환자 ID는 필수 값입니다."))
+        .andExpect(jsonPath("$.hospitalId").value("병원 ID는 필수 값입니다."))
+        .andExpect(jsonPath("$.clinicSubjectType").value("진료 과목은 필수 값입니다."))
+        .andExpect(jsonPath("$.clinicCategoryType").value("진료 유형은 필수 값입니다."))
+        .andExpect(jsonPath("$.visitStatusType").value("방문 상태는 필수 값입니다."))
+        .andDo(document("{class-name}/{method-name}",preprocessResponse(prettyPrint())));
+
+    verify(patientVisitService, times(0)).update(eq(1L),any(PatientVisitUpdateRequest.class));
+  }
+
+  @Test
+  @Order(8)
   @DisplayName("환자 방문 정보 수정 - [case: 병원 정보 미확인]")
   void byUpdateRequest_patientVisitBusinessException_notFoundHospital() throws Exception {
     //given
@@ -807,7 +837,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
   }
 
   @Test
-  @Order(8)
+  @Order(9)
   @DisplayName("환자 방문 정보 수정 - [case: 환자 정보 미확인]")
   void byUpdateRequest_patientVisitBusinessException_notFoundPatient() throws Exception {
     //given
@@ -894,7 +924,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
   }
 
   @Test
-  @Order(9)
+  @Order(10)
   @DisplayName("환자 방문 정보 삭제")
   void byDeleteRequestId() throws Exception {
     //given
@@ -908,7 +938,7 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
   }
 
   @Test
-  @Order(10)
+  @Order(11)
   @DisplayName("환자 방문 정보 삭제 - [case: 존재하지 않는 경우]")
   void byDeleteRequestId_patientVisitBusinessException() throws Exception {
     //given
