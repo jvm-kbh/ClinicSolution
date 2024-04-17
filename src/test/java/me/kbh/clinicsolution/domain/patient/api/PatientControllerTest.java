@@ -858,11 +858,13 @@ class PatientControllerTest extends AbstractRestDocsTests {
     mockMvc.perform(delete("/patient/{patientId}", deletePatientId))
         .andExpect(status().isOk())
         .andExpect(content().string("true"));
+
+    verify(patientService, times(1)).delete(1L);
   }
 
   @Test
   @Order(13)
-  @DisplayName("환자 정보 저장 - [case: 병원 정보 미확인]")
+  @DisplayName("환자 정보 삭제 - [case: 존재하지 않는 경우]")
   void byDeleteRequestId_patientBusinessException() throws Exception {
     Long nonExistingPatientId = 1L;
 
@@ -878,7 +880,8 @@ class PatientControllerTest extends AbstractRestDocsTests {
             jsonPath("$.httpStatusCode").value(PatientError.NOT_FOUND.getHttpStatus().value()))
         .andExpect(jsonPath("$.httpStatusType").value(String.valueOf(PatientError.NOT_FOUND)))
         .andExpect(jsonPath("$.errorMessage").value(PatientError.NOT_FOUND.getMessage()))
-        .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint())))
-    ;
+        .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint())));
+
+    verify(patientService, times(1)).delete(1L);
   }
 }

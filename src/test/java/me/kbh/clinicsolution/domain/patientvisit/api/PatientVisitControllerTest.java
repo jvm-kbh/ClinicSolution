@@ -142,13 +142,13 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
 
     //then
     List<FieldDescriptor> responseFieldDescriptorList = List.of(
-        fieldWithPath("patientVisitId").description("방문상태코드"),
-        fieldWithPath("visitStatusCode").description("방문상태코드"),
-        fieldWithPath("clinicSubjectCode").description("진료과목코드"),
-        fieldWithPath("clinicCategoryCode").description("진료유형코드"),
-        fieldWithPath("createAt").description("진료유형코드"),
-        subsectionWithPath("hospital").description("관련 병원"),
-        subsectionWithPath("patient").description("관련 환자")
+        fieldWithPath("patientVisitId").description(PATIENT_ID),
+        fieldWithPath("visitStatusCode").description(VISIT_STATUS_CODE),
+        fieldWithPath("clinicSubjectCode").description(CLINIC_SUBJECT_CODE),
+        fieldWithPath("clinicCategoryCode").description(CLINIC_CATEGORY_CODE),
+        fieldWithPath("createAt").description(CREATE_AT),
+        subsectionWithPath("hospital").description(HOSPITAL_ID),
+        subsectionWithPath("patient").description(PATIENT)
     );
 
     mockMvc.perform(
@@ -304,25 +304,25 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
         .andDo(document("{class-name}/{method-name}",
             preprocessResponse(prettyPrint()),
             PayloadDocumentation.responseFields(
-                fieldWithPath("[].patientVisitId").description("환자 방문 ID (nullable)"),
-                fieldWithPath("[].visitStatusCode").description("환자 방문 상태 코드 ('방문중' 또는 '종료')"),
-                fieldWithPath("[].clinicSubjectCode").description("진료 과목 코드"),
-                fieldWithPath("[].clinicCategoryCode").description("진료 카테고리 코드"),
-                fieldWithPath("[].hospital.hospitalId").type(Long.class).description("HOSPITAL_ID"),
-                fieldWithPath("[].hospital.hospitalName").description("HOSPITAL_NAME"),
-                fieldWithPath("[].hospital.medicalInstitutionNumber").description("MEDICAL_INSTITUTION_NUMBER"),
-                fieldWithPath("[].hospital.hospitalDirectorName").description("HOSPITAL_DIRECTOR_NAME"),
-                fieldWithPath("[].patient.patientId").description("환자 ID (nullable)"),
-                fieldWithPath("[].patient.patientName").description("환자 이름"),
-                fieldWithPath("[].patient.patientRegistrationNumber").description("환자 등록 번호"),
-                fieldWithPath("[].patient.genderCode").description("환자 성별 코드"),
-                fieldWithPath("[].patient.birthDate").description("환자 생년월일"),
-                fieldWithPath("[].patient.phoneNumber").description("환자 전화번호"),
-                fieldWithPath("[].patient.hospital.hospitalId").description("환자가 속한 병원 ID (nullable)"),
-                fieldWithPath("[].patient.hospital.hospitalName").description("환자가 속한 병원 이름"),
-                fieldWithPath("[].patient.hospital.medicalInstitutionNumber").description("환자가 속한 병원의 의료 기관 번호"),
-                fieldWithPath("[].patient.hospital.hospitalDirectorName").description("환자가 속한 병원의 병원장 이름"),
-                fieldWithPath("[].createAt").description("레코드 생성 시간 (nullable)")
+                fieldWithPath("[].patientVisitId").description(PATIENT_VISIT_ID),
+                fieldWithPath("[].visitStatusCode").description(VISIT_STATUS_CODE),
+                fieldWithPath("[].clinicSubjectCode").description(CLINIC_SUBJECT_CODE),
+                fieldWithPath("[].clinicCategoryCode").description(CLINIC_CATEGORY_CODE),
+                fieldWithPath("[].hospital.hospitalId").type(Long.class).description(HOSPITAL_ID),
+                fieldWithPath("[].hospital.hospitalName").description(HOSPITAL_NAME),
+                fieldWithPath("[].hospital.medicalInstitutionNumber").description(MEDICAL_INSTITUTION_NUMBER),
+                fieldWithPath("[].hospital.hospitalDirectorName").description(HOSPITAL_DIRECTOR_NAME),
+                fieldWithPath("[].patient.patientId").description(PATIENT_ID),
+                fieldWithPath("[].patient.patientName").description(PATIENT_NAME),
+                fieldWithPath("[].patient.patientRegistrationNumber").description(PATIENT_REGISTRATION_NUMBER),
+                fieldWithPath("[].patient.genderCode").description(GENDER_CODE),
+                fieldWithPath("[].patient.birthDate").description(BIRTH_DATE),
+                fieldWithPath("[].patient.phoneNumber").description(PHONE_NUMBER),
+                fieldWithPath("[].patient.hospital.hospitalId").description(HOSPITAL_ID),
+                fieldWithPath("[].patient.hospital.hospitalName").description(HOSPITAL_NAME),
+                fieldWithPath("[].patient.hospital.medicalInstitutionNumber").description(MEDICAL_INSTITUTION_NUMBER),
+                fieldWithPath("[].patient.hospital.hospitalDirectorName").description(HOSPITAL_DIRECTOR_NAME),
+                fieldWithPath("[].createAt").description(CREATE_AT)
             )
         ));
 
@@ -935,6 +935,8 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
     mockMvc.perform(delete("/patient-visit/{patientId}", deletePatientVisitId))
         .andExpect(status().isOk())
         .andExpect(content().string("true"));
+
+    verify(patientVisitService, times(1)).delete(1L);
   }
 
   @Test
@@ -953,16 +955,11 @@ class PatientVisitControllerTest extends AbstractRestDocsTests {
     mockMvc.perform(delete("/patient-visit/{patientVisitId}",nonExistingPatientVisitId))
         .andExpect(status().isNotFound())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.definitionCodeName").value(
-            "me.kbh.clinicsolution.domain.patientvisit.exception.code.PatientVisitError")).
-        andExpect(
-            jsonPath("$.httpStatusCode").value(PatientVisitError.NOT_FOUND.getHttpStatus().value())).
-        andExpect(jsonPath("$.httpStatusType").value(String.valueOf(PatientVisitError.NOT_FOUND))).
-        andExpect(jsonPath("$.errorMessage").value(PatientVisitError.NOT_FOUND.getMessage()))
-        .andDo(
-            document("{class-name}/{method-name}",
-                preprocessResponse(prettyPrint()))
-        );
+        .andExpect(jsonPath("$.definitionCodeName").value("me.kbh.clinicsolution.domain.patientvisit.exception.code.PatientVisitError"))
+        .andExpect(jsonPath("$.httpStatusCode").value(PatientVisitError.NOT_FOUND.getHttpStatus().value()))
+        .andExpect(jsonPath("$.httpStatusType").value(String.valueOf(PatientVisitError.NOT_FOUND)))
+        .andExpect(jsonPath("$.errorMessage").value(PatientVisitError.NOT_FOUND.getMessage()))
+        .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint())));
 
     verify(patientVisitService, times(1)).delete(1L);
   }

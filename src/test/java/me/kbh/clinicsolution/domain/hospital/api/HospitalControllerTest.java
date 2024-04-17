@@ -59,7 +59,7 @@ class HospitalControllerTest extends AbstractRestDocsTests {
   protected static final String HOSPITAL_ID = "병원 ID";
   protected static final String HOSPITAL_NAME = "병원 이름";
   protected static final String MEDICAL_INSTITUTION_NUMBER = "병원 기관번호";
-  protected static final String HOSPITAL_DIRECTOR_NAME = "병원장 이릅";
+  protected static final String HOSPITAL_DIRECTOR_NAME = "병원장 이름";
 
   @Test
   @Order(1)
@@ -256,9 +256,11 @@ class HospitalControllerTest extends AbstractRestDocsTests {
 
     // then
     List<FieldDescriptor> requestFieldsSnippet = List.of(
-        fieldWithPath("hospitalName").type(JsonFieldType.STRING).description("병원 이름"),
-        fieldWithPath("medicalInstitutionNumber").type(JsonFieldType.STRING).description("기관 번호"),
-        fieldWithPath("hospitalDirectorName").type(JsonFieldType.STRING).description("병원장 이름")
+        fieldWithPath("hospitalName").type(JsonFieldType.STRING).description(HOSPITAL_NAME),
+        fieldWithPath("medicalInstitutionNumber").type(JsonFieldType.STRING)
+            .description(MEDICAL_INSTITUTION_NUMBER),
+        fieldWithPath("hospitalDirectorName").type(JsonFieldType.STRING)
+            .description(HOSPITAL_DIRECTOR_NAME)
     );
 
     List<FieldDescriptor> responseFieldsSnippet = List.of(
@@ -362,9 +364,11 @@ class HospitalControllerTest extends AbstractRestDocsTests {
 
     // then
     List<FieldDescriptor> requestFieldsSnippet = List.of(
-        fieldWithPath("hospitalName").type(JsonFieldType.STRING).description("병원 이름"),
-        fieldWithPath("medicalInstitutionNumber").type(JsonFieldType.STRING).description("기관 번호"),
-        fieldWithPath("hospitalDirectorName").type(JsonFieldType.STRING).description("병원장 이름")
+        fieldWithPath("hospitalName").type(JsonFieldType.STRING).description(HOSPITAL_NAME),
+        fieldWithPath("medicalInstitutionNumber").type(JsonFieldType.STRING)
+            .description(MEDICAL_INSTITUTION_NUMBER),
+        fieldWithPath("hospitalDirectorName").type(JsonFieldType.STRING)
+            .description(HOSPITAL_DIRECTOR_NAME)
     );
 
     List<FieldDescriptor> responseFieldsSnippet = List.of(
@@ -439,9 +443,7 @@ class HospitalControllerTest extends AbstractRestDocsTests {
         .andExpect(jsonPath("$.hospitalDirectorName").value("병원장 이름의 최대 길이는 10입니다."))
         .andExpect(jsonPath("$.hospitalName").value("병원 이름의 최대 길이는 45입니다."))
         .andExpect(jsonPath("$.medicalInstitutionNumber").value("기관 번호의 최대 길이는 20입니다."))
-        .andDo(document("{class-name}/{method-name}",
-            preprocessResponse(prettyPrint())
-        ));
+        .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint())));
 
     verify(hospitalService, times(0))
         .update(eq(1L), any(HospitalUpdateRequest.class));
@@ -456,6 +458,8 @@ class HospitalControllerTest extends AbstractRestDocsTests {
     mockMvc.perform(delete("/hospital/{hospitalId}", deleteHospitalId))
         .andExpect(status().isOk())
         .andExpect(content().string("true"));
+
+    verify(hospitalService, times(1)).delete(1L);
   }
 
   @Test
@@ -473,9 +477,10 @@ class HospitalControllerTest extends AbstractRestDocsTests {
         .andExpect(jsonPath("$.definitionCodeName").value(
             "me.kbh.clinicsolution.domain.hospital.exception.code.HospitalError"))
         .andExpect(
-            jsonPath("$.httpStatusCode").value(HospitalError.NOT_FOUND.getHttpStatus().value())).
-        andExpect(jsonPath("$.httpStatusType").value(String.valueOf(HospitalError.NOT_FOUND))).
-        andExpect(jsonPath("$.errorMessage").value(HospitalError.NOT_FOUND.getMessage()))
-    ;
+            jsonPath("$.httpStatusCode").value(HospitalError.NOT_FOUND.getHttpStatus().value()))
+        .andExpect(jsonPath("$.httpStatusType").value(String.valueOf(HospitalError.NOT_FOUND)))
+        .andExpect(jsonPath("$.errorMessage").value(HospitalError.NOT_FOUND.getMessage()));
+
+    verify(hospitalService, times(1)).delete(1L);
   }
 }
