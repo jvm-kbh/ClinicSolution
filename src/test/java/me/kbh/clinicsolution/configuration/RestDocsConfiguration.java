@@ -7,7 +7,6 @@ import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.context.ActiveProfiles;
 
-@ActiveProfiles("test")
 @TestConfiguration
 public class RestDocsConfiguration {
 

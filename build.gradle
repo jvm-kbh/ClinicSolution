@@ -91,3 +91,8 @@ task copyDocument(type: Copy) {
 build {
     dependsOn copyDocument
 }
+
+bootRun {
+    String activeProfile = System.properties['spring.profiles.active']
+    systemProperty "spring.profiles.active", activeProfile
+}
