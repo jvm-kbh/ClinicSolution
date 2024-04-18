@@ -1,0 +1,32 @@
+###
+GET http://localhost:8080/patient-visit/1
+
+###
+GET http://localhost:8080/patient-visit/
+
+###
+POST http://localhost:8080/patient-visit
+Content-Type: application/json
+
+{
+  "hospitalId": 1,
+  "patientId": 1,
+  "clinicSubjectType": "CLINIC_SUBJECT_ONE",
+  "clinicCategoryType": "CLINIC_CATEGORY_D",
+  "visitStatusType": "VISIT_STATUS_ONE"
+}
+
+###
+PUT http://localhost:8080/patient-visit/1
+Content-Type: application/json
+
+{
+  "hospitalId": 1,
+  "patientId": 1,
+  "clinicSubjectType": "CLINIC_SUBJECT_TWO",
+  "clinicCategoryType": "CLINIC_CATEGORY_T",
+  "visitStatusType": "VISIT_STATUS_TWO"
+}
+
+###
+DELETE http://localhost:8080/patient-visit/1

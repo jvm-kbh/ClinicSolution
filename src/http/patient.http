@@ -1,0 +1,90 @@
+###
+GET http://localhost:8080/patient/1
+
+###
+GET http://localhost:8080/patient/all
+
+###
+POST http://localhost:8080/patient
+Content-Type: application/json
+
+{
+  "patientName": "환자1",
+  "genderType": "GENDER_MAN",
+  "birthDate": "1988-10-20",
+  "phoneNumber": "010-6278-9770",
+  "hospitalId": 1
+}
+
+### wrong case
+
+POST http://localhost:8080/patient
+Content-Type: application/json
+
+{
+  "birthDate": "1988-10-20",
+  "phoneNumber": "010-6278-97702222222",
+  "hospitalId": -1
+}
+
+### wrong case
+
+POST http://localhost:8080/patient
+Content-Type: application/json
+
+{
+  "birthDate": "1988-10-299999"
+}
+
+###
+
+POST http://localhost:8080/patient
+Content-Type: application/json
+
+{
+  "birthDate": "1988-10-20222222",
+  "phoneNumber": "010-6278-900022222",
+  "hospitalId": -1
+}
+
+###
+PUT http://localhost:8080/patient/1
+Content-Type: application/json
+
+{
+  "patientName": "알고보니여자환자",
+  "genderType": "GENDER_FEMALE",
+  "birthDate": "1988-10-20",
+  "phoneNumber": "010-6278-9770",
+  "hospitalId": 111111111
+}
+
+###
+DELETE http://localhost:8080/patient/1
+
+###
+GET http://localhost:8080/patient/all/condition
+
+###
+GET http://localhost:8080/patient/all/condition?patientName=환&page=1&size=2
+
+###
+GET http://localhost:8080/patient/all/condition?patientName=김&page=0&size=10
+
+###
+GET http://localhost:8080/patient/all/condition?birthDate=1988-10-20&page=0&size=10
+
+###
+GET http://localhost:8080/patient/all/condition?patientRegistrationNumber=1&page=0&size=10
+
+###
+GET http://localhost:8080/patient/all/condition?patientRegistrationNumber=P000000000001&page=0&
+    size=10
+
+###
+GET http://localhost:8080/patient/all/condition?patientRegistrationNumber=P000000000002&page=0&
+    size=10
+
+###
+GET http://localhost:8080/patient/all/condition?patientRegistrationNumber=P000000000003&page=0&
+    size=10
