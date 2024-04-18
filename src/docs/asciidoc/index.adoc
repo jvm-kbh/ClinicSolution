@@ -110,4 +110,4 @@
 
 include::hospital-api.adoc[]
 include::patient-api.adoc[]
-include::patient-api.adoc[]
+include::patient-visit-api.adoc[]
