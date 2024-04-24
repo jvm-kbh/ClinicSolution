@@ -26,9 +26,9 @@ public class PatientVisitServiceImpl implements PatientVisitService {
   HospitalRepository hospitalRepository;
 
   @Override
-  public PatientVisitResponse findById(Long patientVisitId) {
+  public PatientVisitResponse findById(Long hospitalId) {
     PatientVisit patientVisit =
-        patientVisitRepository.findById(patientVisitId).orElseThrow(patientNotFoundException());
+        patientVisitRepository.findById(hospitalId).orElseThrow(patientNotFoundException());
 
     return PatientVisitResponse.builder().mappingByEntity(patientVisit).build();
   }
@@ -83,8 +83,6 @@ public class PatientVisitServiceImpl implements PatientVisitService {
 
     PatientVisit patientVisit = patientVisitRepository.findById(patientId)
         .orElseThrow(patientVisitNotFoundException());
-
-    patientVisit.update(patientVisitUpdateRequest, relateHospital, relatePatient);
 
     return PatientVisitResponse.builder().mappingByEntity(patientVisit).build();
   }
