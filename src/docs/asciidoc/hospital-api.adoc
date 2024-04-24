@@ -11,14 +11,14 @@ operation::hospital-controller-test/all_no-results[snippets="http-response"]
 == 병원 정보 저장
 
 operation::hospital-controller-test/by-save-request[snippets="curl-request,http-request,response-fields,http-response"]
-operation::hospital-controller-test/by-save-request_-method-argument-not-valid-exception[snippets="http-response"]
+operation::hospital-controller-test/by-save-request_method-argument-not-valid-exception[snippets="http-response"]
 
 == 병원 정보 수정
 
 operation::hospital-controller-test/by-update-request[snippets="curl-request,http-request,response-fields,http-response"]
-operation::hospital-controller-test/by-update-request_-method-argument-not-valid-exception[snippets="http-response"]
+operation::hospital-controller-test/by-update-request_method-argument-not-valid-exception[snippets="http-response"]
 
 == 병원 정보 삭제
 
-operation::hospital-controller-test/by-delete-request-id[snippets="curl-request,http-request"]
-operation::hospital-controller-test/by-delete-request-id_-hospital-business-exception[snippets="http-response"]
+operation::hospital-controller-test/by-delete-request-id[snippets="curl-request,http-request,http-response"]
+operation::hospital-controller-test/by-delete-request-id_hospital-business-exception[snippets="http-response"]

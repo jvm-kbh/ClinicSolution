@@ -24,5 +24,5 @@ operation::patient-visit-controller-test/by-update-request_patient-visit-busines
 
 == 환자 방문 정보 삭제
 
-operation::patient-visit-controller-test/by-delete-request-id[snippets="curl-request,http-request"]
+operation::patient-visit-controller-test/by-delete-request-id[snippets="curl-request,http-request,http-response"]
 operation::patient-visit-controller-test/by-delete-request-id_patient-visit-business-exception[snippets="http-response"]
