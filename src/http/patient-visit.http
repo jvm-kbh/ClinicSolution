@@ -17,6 +17,30 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:8080/patient-visit
+Content-Type: application/json
+
+{
+  "hospitalId": 2,
+  "patientId": 2,
+  "clinicSubjectType": "CLINIC_SUBJECT_ONE",
+  "clinicCategoryType": "CLINIC_CATEGORY_D",
+  "visitStatusType": "VISIT_STATUS_ONE"
+}
+
+###
+POST http://localhost:8080/patient-visit
+Content-Type: application/json
+
+{
+  "hospitalId": 3,
+  "patientId": 3,
+  "clinicSubjectType": "CLINIC_SUBJECT_ONE",
+  "clinicCategoryType": "CLINIC_CATEGORY_D",
+  "visitStatusType": "VISIT_STATUS_ONE"
+}
+
+###
 PUT http://localhost:8080/patient-visit/1
 Content-Type: application/json
 

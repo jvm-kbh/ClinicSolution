@@ -1,7 +1,9 @@
 package me.kbh.clinicsolution.domain.patient.service;
 
+import com.querydsl.core.Tuple;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.Function;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -50,14 +52,17 @@ public class PatientServiceImpl implements PatientService {
       PatientSearchCondition patientSearchCondition,
       Pageable pageable
   ) {
-    Page<Patient> patientPage = patientRepository.findAllByCondition(patientSearchCondition,
+    Page<Tuple> patientPage = patientRepository.findAllByCondition(patientSearchCondition,
         pageable);
-    Function<Patient, PatientResponse> mappingByEntityFunction = patient -> PatientResponse.builder()
-        .mappingByEntity(patient)
-        .build();
-
     List<PatientResponse> patientResponseList = patientPage.getContent().stream()
-        .map(mappingByEntityFunction)
+        .map(tuple -> {
+          Patient patient = tuple.get(0, Patient.class);
+          LocalDate visitDate = tuple.get(1, LocalDateTime.class).toLocalDate();
+          return PatientResponse.builder()
+              .mappingByEntity(patient)
+              .visitDate(visitDate)
+              .build();
+        })
         .toList();
 
     return new PageInfoWrapper<>(patientResponseList, patientPage);

@@ -1,0 +1,101 @@
+###
+POST http://localhost:8080/hospital
+Content-Type: application/json
+
+{
+  "hospitalName": "병원1",
+  "medicalInstitutionNumber": "기관번호1",
+  "hospitalDirectorName": "병원장1"
+}
+
+###
+POST http://localhost:8080/patient
+Content-Type: application/json
+
+{
+  "patientName": "환자1",
+  "genderType": "GENDER_MAN",
+  "birthDate": "1988-10-20",
+  "phoneNumber": "010-6278-9770",
+  "hospitalId": 1
+}
+
+###
+POST http://localhost:8080/hospital
+Content-Type: application/json
+
+{
+  "hospitalName": "병원1",
+  "medicalInstitutionNumber": "기관번호1",
+  "hospitalDirectorName": "병원장1"
+}
+
+###
+POST http://localhost:8080/patient
+Content-Type: application/json
+
+{
+  "patientName": "환자1",
+  "genderType": "GENDER_MAN",
+  "birthDate": "1988-10-20",
+  "phoneNumber": "010-6278-9770",
+  "hospitalId": 1
+}
+
+###
+POST http://localhost:8080/hospital
+Content-Type: application/json
+
+{
+  "hospitalName": "병원1",
+  "medicalInstitutionNumber": "기관번호1",
+  "hospitalDirectorName": "병원장1"
+}
+
+###
+POST http://localhost:8080/patient
+Content-Type: application/json
+
+{
+  "patientName": "환자1",
+  "genderType": "GENDER_MAN",
+  "birthDate": "1988-10-20",
+  "phoneNumber": "010-6278-9770",
+  "hospitalId": 1
+}
+
+###
+POST http://localhost:8080/patient-visit
+Content-Type: application/json
+
+{
+  "hospitalId": 1,
+  "patientId": 1,
+  "clinicSubjectType": "CLINIC_SUBJECT_ONE",
+  "clinicCategoryType": "CLINIC_CATEGORY_D",
+  "visitStatusType": "VISIT_STATUS_ONE"
+}
+
+###
+POST http://localhost:8080/patient-visit
+Content-Type: application/json
+
+{
+  "hospitalId": 2,
+  "patientId": 2,
+  "clinicSubjectType": "CLINIC_SUBJECT_ONE",
+  "clinicCategoryType": "CLINIC_CATEGORY_D",
+  "visitStatusType": "VISIT_STATUS_ONE"
+}
+
+###
+POST http://localhost:8080/patient-visit
+Content-Type: application/json
+
+{
+  "hospitalId": 3,
+  "patientId": 3,
+  "clinicSubjectType": "CLINIC_SUBJECT_ONE",
+  "clinicCategoryType": "CLINIC_CATEGORY_D",
+  "visitStatusType": "VISIT_STATUS_ONE"
+}

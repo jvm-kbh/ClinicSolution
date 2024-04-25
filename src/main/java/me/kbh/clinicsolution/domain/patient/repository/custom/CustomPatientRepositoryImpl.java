@@ -2,7 +2,9 @@ package me.kbh.clinicsolution.domain.patient.repository.custom;
 
 import static me.kbh.clinicsolution.domain.hospital.entity.QHospital.hospital;
 import static me.kbh.clinicsolution.domain.patient.entity.QPatient.patient;
+import static me.kbh.clinicsolution.domain.patientvisit.entity.QPatientVisit.patientVisit;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,7 +28,7 @@ public class CustomPatientRepositoryImpl implements CustomPatientRepository {
   JPAQueryFactory queryFactory;
 
   @Override
-  public Page<Patient> findAllByCondition(
+  public Page<Tuple> findAllByCondition(
       PatientSearchCondition patientSearchCondition,
       Pageable pageable
   ) {
@@ -34,17 +36,20 @@ public class CustomPatientRepositoryImpl implements CustomPatientRepository {
     int pageSize = pageable.getPageSize();
     long offset = (long) pageSize * pageNumber;
 
-    JPAQuery<Patient> query = queryFactory.selectFrom(patient)
-        .leftJoin(patient.hospital, hospital)
+    JPAQuery<Tuple> query = queryFactory.select(patient, patientVisit.createdDate.max())
+        .from(patient)
+        .leftJoin(patient.hospital, hospital).fetchJoin()
+        .leftJoin(patientVisit).on(patientVisit.patient.patientId.eq(patient.patientId)).fetchJoin()
         .where(
             patientNameContain(patientSearchCondition.getPatientName()),
             patientRegistrationNumberEq(patientSearchCondition.getPatientRegistrationNumber()),
             patientBirthDateEq(patientSearchCondition.getBirthDate())
-        );
+        )
+        .groupBy(patient.patientId);
 
-    long total = query.fetch().size();
-    List<Patient> patientList = query.limit(pageSize).offset(offset).fetch();
-    return new PageImpl<>(patientList, pageable, total);
+    long total = queryFactory.select(patient.count()).from(patient).fetchOne().longValue();
+    List<Tuple> tupleList = query.limit(pageSize).offset(offset).fetch();
+    return new PageImpl<>(tupleList, pageable, total);
   }
 
   private static BooleanExpression patientNameContain(String patientName) {

@@ -21,16 +21,18 @@ public class PatientResponse implements Serializable {
   String genderCode;
   LocalDate birthDate;
   String phoneNumber;
+  LocalDate visitDate;
   HospitalResponse hospital;
 
   @Builder
-  protected PatientResponse(Patient mappingByEntity) {
+  protected PatientResponse(Patient mappingByEntity, LocalDate visitDate) {
     this.patientId = mappingByEntity.getPatientId();
     this.patientName = mappingByEntity.getPatientName();
     this.patientRegistrationNumber = mappingByEntity.getPatientRegistrationNumber();
     this.genderCode = mappingByEntity.getGenderCode();
     this.birthDate = mappingByEntity.getBirthDate();
     this.phoneNumber = mappingByEntity.getPhoneNumber();
+    this.visitDate = visitDate;
     this.hospital = HospitalResponse.builder()
         .mappingByEntity(mappingByEntity.getHospital())
         .build();
